@@ -1,0 +1,21 @@
+{
+  "name": "cusco",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "nx serve",
+    "build": "nx build",
+    "test": "nx test",
+    "prepare": "nx g @nx-dotnet/core:restore"
+  },
+  "private": true,
+  "devDependencies": {
+    "@nrwl/cli": "14.3.6",
+    "@nrwl/nx-cloud": "latest",
+    "@nrwl/workspace": "14.3.6",
+    "@nx-dotnet/core": "^1.12.0",
+    "nx": "14.3.6",
+    "prettier": "^2.6.2",
+    "typescript": "~4.7.2"
+  }
+}

@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.LowLevel", "libs\low-level\Cusco.LowLevel.csproj", "{3789272F-75FD-4346-A7CF-B78F3BDC8ADD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.LowLevel.Test", "libs\low-level-test\Cusco.LowLevel.Test.csproj", "{9FA93316-901D-4E65-9DD9-63A477EE85AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cusco.UnsafeIL", "libs\unsafe-il\Cusco.UnsafeIL.ilproj", "{CC983671-96A7-408C-8CEF-FD2C0C048157}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3789272F-75FD-4346-A7CF-B78F3BDC8ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3789272F-75FD-4346-A7CF-B78F3BDC8ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3789272F-75FD-4346-A7CF-B78F3BDC8ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3789272F-75FD-4346-A7CF-B78F3BDC8ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FA93316-901D-4E65-9DD9-63A477EE85AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FA93316-901D-4E65-9DD9-63A477EE85AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FA93316-901D-4E65-9DD9-63A477EE85AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FA93316-901D-4E65-9DD9-63A477EE85AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC983671-96A7-408C-8CEF-FD2C0C048157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC983671-96A7-408C-8CEF-FD2C0C048157}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC983671-96A7-408C-8CEF-FD2C0C048157}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC983671-96A7-408C-8CEF-FD2C0C048157}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.IL">
+    <PropertyGroup>
+        <DebugOptimization>IMPL</DebugOptimization>
+        <DebugOptimization Condition="$(Configuration.Contains('Release'))">OPT</DebugOptimization>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace>Cusco.UnsafeIL</RootNamespace>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <Configurations>Debug;Release</Configurations>
+
+        <ProjectGuid>{CC983671-96A7-408C-8CEF-FD2C0C048157}</ProjectGuid>
+        <IncludePath Condition="$(TargetFramework.StartsWith('netstandard2'))">include/netstandard2.1</IncludePath>
+        
+        <IlasmFlags>-INCLUDE=$(IncludePath) -DEBUG=$(DebugOptimization)</IlasmFlags>
+    </PropertyGroup>
+
+</Project>

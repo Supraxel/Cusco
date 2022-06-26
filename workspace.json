@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "low-level": "libs/low-level",
+    "low-level-test": "libs/low-level-test",
+    "unsafe-il": "libs/unsafe-il"
+  }
+}
