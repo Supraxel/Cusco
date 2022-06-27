@@ -98,5 +98,6 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
   # smoke test
   && yarn --version
 
-
 RUN apk add --no-cache --virtual .build-deps-ssh openssh
+
+RUN npm install -g nx

@@ -13,6 +13,9 @@ jobs:
       - checkout:
           name: Checkout Git repository
       - run:
+          name: Install NPM dependencies
+          command: npm install
+      - run:
           name: Run unit tests
           command: nx affected --configuration=production --target=test
 
