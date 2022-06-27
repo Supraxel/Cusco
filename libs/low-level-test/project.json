@@ -1,0 +1,36 @@
+{
+  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/low-level-test",
+  "targets": {
+    "build": {
+      "executor": "@nx-dotnet/core:build",
+      "outputs": [
+        "dist/libs/low-level-test"
+      ],
+      "options": {
+        "configuration": "Debug",
+        "noDependencies": true
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx-dotnet/core:test",
+      "options": {}
+    },
+    "format:check": {
+      "executor": "@nx-dotnet/core:format"
+    },
+    "format": {
+      "executor": "@nx-dotnet/core:format",
+      "options": {
+        "fix": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,32 @@
+{
+  "name": "cusco",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "nx serve",
+    "build": "nx build",
+    "test": "nx test",
+    "prepare": "nx g @nx-dotnet/core:restore"
+  },
+  "private": true,
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-beta.13",
+    "@nrwl/cli": "14.3.6",
+    "@nrwl/nx-cloud": "latest",
+    "@nrwl/workspace": "14.3.6",
+    "@nx-dotnet/core": "^1.12.0",
+    "@nx-plus/docusaurus": "^14.0.0",
+    "nx": "14.3.6",
+    "prettier": "^2.6.2",
+    "typescript": "~4.7.2"
+  },
+  "dependencies": {
+    "@docusaurus/core": "2.0.0-beta.13",
+    "@docusaurus/preset-classic": "2.0.0-beta.13",
+    "@mdx-js/react": "^1.6.21",
+    "clsx": "^1.1.1",
+    "prism-react-renderer": "^1.2.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}

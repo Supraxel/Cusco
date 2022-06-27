@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+
+    <PackageId>Cusco.LowLevel</PackageId>
+
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <OutputPath>../../dist/libs/low-level</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../unsafe-il/Cusco.UnsafeIL.ilproj"/>
+  </ItemGroup>
+
+  <Target Name="CheckNxModuleBoundaries" BeforeTargets="Build">
+    <Exec Command="node ../../node_modules/@nx-dotnet/core/src/tasks/check-module-boundaries.js -p low-level"/>
+  </Target>
+</Project>
