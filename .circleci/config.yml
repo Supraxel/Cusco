@@ -12,6 +12,8 @@ jobs:
       - image: supraxelgames/cusco-buildimage:<<pipeline.parameters.image-tag>>
     resource_class: small
     steps:
+      - checkout:
+          name: Checkout Git repository
       - restore_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
