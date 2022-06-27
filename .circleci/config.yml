@@ -71,7 +71,7 @@ jobs:
           command: |-
             rm -rf nugets
             dotnet restore -f
-            dotnet pack -o nugets -c Release -p:VersionPrefix=$(node -p "require('./package.json').version").$CUSCO_BUILD_NUM;SourceRevisionId=<<pipeline.git.revision>>;RepositoryUrl=<<pipeline.project.git_url>>;RepositoryType=git;RepositoryBranch=<<pipeline.git.branch>>;IncludeSymbols=true;SymbolPackageFormat=snupkg
+            dotnet pack -o nugets -c Release -p:VersionPrefix=$(node -p "require('./package.json').version").$CIRCLE_BUILD_NUM;SourceRevisionId=<<pipeline.git.revision>>;RepositoryUrl=<<pipeline.project.git_url>>;RepositoryType=git;RepositoryBranch=<<pipeline.git.branch>>;IncludeSymbols=true;SymbolPackageFormat=snupkg
             for nuget in nugets/*.nupkg ; do dotnet nuget push $nuget -k $NUGET_KEY --source https://api.nuget.org/v3/index.json ; done
 
 workflows:
