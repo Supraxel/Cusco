@@ -22,6 +22,12 @@ jobs:
           name: dig api.nuget.org
           command: apt-get install -y dnsutils && dig api.nuget.org
       - run:
+          name: certs
+          command: ls -l /etc/ssl/certs
+      - run:
+          name: certs2
+          command: cat /etc/ssl/certs/ca-certificates.crt
+      - run:
           name: curl api.nuget.org
           command: curl https://api.nuget.org/v3/index.json
       - run:
