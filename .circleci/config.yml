@@ -23,7 +23,7 @@ jobs:
           command: apt-get install -y dnsutils && dig api.nuget.org
       - run:
           name: curl api.nuget.org
-          command: curl https://api.nuget.org/v3/index.json
+          command: apt-get install -y curl && curl https://api.nuget.org/v3/index.json
       - run:
           name: Install NPM dependencies
           command: npm install
