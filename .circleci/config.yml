@@ -9,19 +9,21 @@ setup:
 
 
 jobs:
-  #  format-check:
-  #    docker:
-  #      - image: supraxelgames/cusco-buildimage:<< pipeline.parameters.image-tag >>
-  #    steps:
-  #      - checkout:
-  #          name: Checkout Git repository
-  #      - run:
-  #          name: Check formatting
-  #          command: nx affected --configuration=production --target=format:check
+  format-check:
+    docker:
+      - image: supraxelgames/cusco-buildimage:<<pipeline.parameters.image-tag>>
+    resource_class: small
+    steps:
+      - checkout:
+          name: Checkout Git repository
+      - run:
+          name: Check formatting
+          command: nx affected --configuration=production --target=format:check
 
   test:
     docker:
-      - image: supraxelgames/cusco-buildimage:<< pipeline.parameters.image-tag >>
+      - image: supraxelgames/cusco-buildimage:<<pipeline.parameters.image-tag>>
+    resource_class: medium
     steps:
       - checkout:
           name: Checkout Git repository
@@ -30,19 +32,32 @@ jobs:
           command: npm install
       - run:
           name: Run unit tests
-          command: nx affected --target=test
+          command: nx affected --target=test # --logger "trx"
+  # ### see https://circleci.com/docs/2.0/collect-test-data#dot-net
+  #      - run:
+  #          name: Reformat test results
+  #          command: |
+  #            dotnet tool install -g trx2junit
+  #            export PATH="$PATH:/root/.dotnet/tools"
+  #            trx2junit tests/**/TestResults/*.trx
 
-#  build:
-#    docker:
-#      - image: supraxelgames/cusco-buildimage:<< pipeline.parameters.image-tag >>
-#    steps:
-#      - checkout:
-#          name: Checkout Git repository
-#      - run:
-#          name: Build release configuration
-#          command: nx affected --configuration=production --target=build --all
+  nuget:
+    docker:
+      - image: supraxelgames/cusco-buildimage:<<pipeline.parameters.image-tag>>
+    resource_class: medium
+    steps:
+      - checkout:
+          name: Checkout Git repository
+      - run:
+          name: Build release configuration
+          command: |-
+            rm -rf -o nugets
+            dotnet pack -c Release -p:VersionPrefix=$(node -p "require('./package.json').version").$CUSCO_BUILD_NUM;SourceRevisionId=<<pipeline.git.revision>>;RepositoryUrl=<<pipeline.project.git_url>>;RepositoryType=git;RepositoryBranch=<<pipeline.git.branch>>;IncludeSymbols=true;SymbolPackageFormat=snupkg
+            for nuget in nugets/*.nupkg ; do dotnet nuget push $nuget -k $NUGET_KEY --source https://api.nuget.org/v3/index.json ; done
 
 workflows:
-  pull-request:
+  main:
     jobs:
+      - format-check
       - test
+      - nuget

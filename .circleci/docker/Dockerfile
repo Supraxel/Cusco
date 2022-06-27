@@ -109,5 +109,5 @@ RUN set -ex \
 ## =============================================
 
 RUN npm install -g nx
-RUN apt-get update -y && apt-get install -y ssh --no-install-recommends libicu-dev libcurl4-openssl-dev curl ca-certificates
+RUN apt-get update -y && apt-get install -y ssh --no-install-recommends libicu-dev libcurl4-openssl-dev curl ca-certificates git
 RUN update-ca-certificates
