@@ -20,7 +20,7 @@ jobs:
           command: cat /etc/resolv.conf
       - run:
           name: dig api.nuget.org
-          command: dig api.nuget.org
+          command: apt-get install -y dnsutils && dig api.nuget.org
       - run:
           name: curl api.nuget.org
           command: curl https://api.nuget.org/v3/index.json
