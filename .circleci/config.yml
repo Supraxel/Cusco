@@ -26,32 +26,11 @@ jobs:
       - checkout:
           name: Checkout Git repository
       - run:
-          name: Hosts
-          command: cat /etc/hosts
-      - run:
-          name: Resolv.conf
-          command: cat /etc/resolv.conf
-      - run:
-          name: dig api.nuget.org
-          command: apt-get install -y dnsutils && dig api.nuget.org
-      - run:
-          name: certs
-          command: ls -l /etc/ssl/certs
-      - run:
-          name: certs2
-          command: cat /etc/ssl/certs/ca-certificates.crt
-      - run:
-          name: curl api.nuget.org
-          command: curl https://api.nuget.org/v3/index.json
-      - run:
           name: Install NPM dependencies
           command: npm install
       - run:
-          name: Restore .NET dependencies
-          command: dotnet restore -f
-      - run:
           name: Run unit tests
-          command: nx affected --target=test -- --prod
+          command: nx affected --target=test
 
 #  build:
 #    docker:
