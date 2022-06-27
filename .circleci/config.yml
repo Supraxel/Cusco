@@ -5,7 +5,20 @@ parameters:
     type: string
     default: "0.1.0"
 
+setup:
+
+
 jobs:
+  #  format-check:
+  #    docker:
+  #      - image: supraxelgames/cusco-buildimage:<< pipeline.parameters.image-tag >>
+  #    steps:
+  #      - checkout:
+  #          name: Checkout Git repository
+  #      - run:
+  #          name: Check formatting
+  #          command: nx affected --configuration=production --target=format:check
+
   test:
     docker:
       - image: supraxelgames/cusco-buildimage:<< pipeline.parameters.image-tag >>
@@ -38,7 +51,17 @@ jobs:
           command: dotnet restore -f
       - run:
           name: Run unit tests
-          command: nx affected --configuration=production --target=test
+          command: nx affected --target=test -- --prod
+
+#  build:
+#    docker:
+#      - image: supraxelgames/cusco-buildimage:<< pipeline.parameters.image-tag >>
+#    steps:
+#      - checkout:
+#          name: Checkout Git repository
+#      - run:
+#          name: Build release configuration
+#          command: nx affected --configuration=production --target=build --all
 
 workflows:
   pull-request:
