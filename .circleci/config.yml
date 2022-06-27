@@ -16,6 +16,9 @@ jobs:
           name: Install NPM dependencies
           command: npm install
       - run:
+          name: Restore .NET dependencies
+          command: dotnet restore -f
+      - run:
           name: Run unit tests
           command: nx affected --configuration=production --target=test
 
