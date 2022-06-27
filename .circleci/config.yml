@@ -13,6 +13,12 @@ jobs:
       - checkout:
           name: Checkout Git repository
       - run:
+          name: Hosts
+          command: cat /etc/hosts
+      - run:
+          name: Resolv.conf
+          command: cat /etc/resolv.conf
+      - run:
           name: Install NPM dependencies
           command: npm install
       - run:
