@@ -1,0 +1,22 @@
+version: 2.1
+
+parameters:
+  image-tag:
+    type: string
+    default: "0.1.0"
+
+jobs:
+  test:
+    docker:
+      - image: supraxelgames/cusco-buildimage:<< pipeline.parameters.image-tag >>
+    steps:
+      - checkout:
+          name: Checkout Git repository
+      - run:
+          name: Run unit tests
+          command: nx affected --configuration=production --target=test
+
+workflows:
+  pull-request:
+    jobs:
+      - test
