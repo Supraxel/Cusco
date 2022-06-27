@@ -5,10 +5,23 @@ parameters:
     type: string
     default: "0.1.0"
 
-setup:
-
-
 jobs:
+
+  setup:
+    docker:
+      - image: supraxelgames/cusco-buildimage:<<pipeline.parameters.image-tag>>
+    resource_class: small
+    steps:
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: install dependencies
+          command: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+
   format-check:
     docker:
       - image: supraxelgames/cusco-buildimage:<<pipeline.parameters.image-tag>>
@@ -16,9 +29,8 @@ jobs:
     steps:
       - checkout:
           name: Checkout Git repository
-      - run:
-          name: Install NPM dependencies
-          command: npm install
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Check formatting
           command: nx affected --configuration=production --target=format:check
@@ -30,19 +42,14 @@ jobs:
     steps:
       - checkout:
           name: Checkout Git repository
-      - run:
-          name: Install NPM dependencies
-          command: npm install
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Run unit tests
-          command: nx affected --target=test # --logger "trx"
+          command: |
+            dotnet restore
+            nx affected --target=test
   # ### see https://circleci.com/docs/2.0/collect-test-data#dot-net
-  #      - run:
-  #          name: Reformat test results
-  #          command: |
-  #            dotnet tool install -g trx2junit
-  #            export PATH="$PATH:/root/.dotnet/tools"
-  #            trx2junit tests/**/TestResults/*.trx
 
   nuget:
     docker:
@@ -51,22 +58,26 @@ jobs:
     steps:
       - checkout:
           name: Checkout Git repository
-      - run:
-          name: Install NPM dependencies
-          command: npm install
+      - restore_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Build release configuration
           command: |-
             rm -rf -o nugets
+            dotnet restore
             dotnet pack -c Release -p:VersionPrefix=$(node -p "require('./package.json').version").$CUSCO_BUILD_NUM;SourceRevisionId=<<pipeline.git.revision>>;RepositoryUrl=<<pipeline.project.git_url>>;RepositoryType=git;RepositoryBranch=<<pipeline.git.branch>>;IncludeSymbols=true;SymbolPackageFormat=snupkg
             for nuget in nugets/*.nupkg ; do dotnet nuget push $nuget -k $NUGET_KEY --source https://api.nuget.org/v3/index.json ; done
 
 workflows:
   main:
     jobs:
-      - format-check
-      - tests
+      - setup
+      - format-check:
+          requires: [ setup ]
+      - tests:
+          requires: [ setup ]
       - nuget:
           requires:
+            - setup
             - format-check
             - tests
