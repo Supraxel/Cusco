@@ -63,7 +63,7 @@ jobs:
       - run:
           name: Run unit tests
           command: |
-            dotnet restore
+            dotnet restore -f
             nx affected --target=test
   # ### see https://circleci.com/docs/2.0/collect-test-data#dot-net
 
@@ -87,7 +87,7 @@ jobs:
           name: Build release configuration
           command: |-
             rm -rf -o nugets
-            dotnet restore
+            dotnet restore -f
             dotnet pack -c Release -p:VersionPrefix=$(node -p "require('./package.json').version").$CUSCO_BUILD_NUM;SourceRevisionId=<<pipeline.git.revision>>;RepositoryUrl=<<pipeline.project.git_url>>;RepositoryType=git;RepositoryBranch=<<pipeline.git.branch>>;IncludeSymbols=true;SymbolPackageFormat=snupkg
             for nuget in nugets/*.nupkg ; do dotnet nuget push $nuget -k $NUGET_KEY --source https://api.nuget.org/v3/index.json ; done
 
@@ -95,12 +95,9 @@ workflows:
   main:
     jobs:
       - deps
-      - format-check:
-          requires: [ deps ]
       - tests:
           requires: [ deps ]
       - nuget:
           requires:
             - deps
-            - format-check
             - tests
