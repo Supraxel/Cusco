@@ -11,6 +11,8 @@
     "docs": "apps/docs",
     "low-level": "libs/low-level",
     "low-level-test": "libs/low-level-test",
+    "pathfinding": "libs/pathfinding",
+    "pathfinding-test": "libs/pathfinding-test",
     "unsafe-il": "libs/unsafe-il"
   }
 }
