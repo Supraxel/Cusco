@@ -4,6 +4,8 @@
   "projects": {
     "core": "libs/core",
     "core-test": "libs/core-test",
+    "csharp-polyfills": "libs/csharp-polyfills",
+    "csharp-polyfills-test": "libs/csharp-polyfills-test",
     "docs": "apps/docs",
     "low-level": "libs/low-level",
     "low-level-test": "libs/low-level-test",
