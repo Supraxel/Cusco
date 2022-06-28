@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.LowLevel.Test", "libs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cusco.UnsafeIL", "libs\unsafe-il\Cusco.UnsafeIL.ilproj", "{CC983671-96A7-408C-8CEF-FD2C0C048157}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.Core", "libs\core\Cusco.Core.csproj", "{CF05AAE5-C2A9-4939-96AE-BC43FE0D4227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.Core.Test", "libs\core-test\Cusco.Core.Test.csproj", "{695A2187-A435-4889-B848-A217010C12D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{CC983671-96A7-408C-8CEF-FD2C0C048157}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC983671-96A7-408C-8CEF-FD2C0C048157}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC983671-96A7-408C-8CEF-FD2C0C048157}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF05AAE5-C2A9-4939-96AE-BC43FE0D4227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF05AAE5-C2A9-4939-96AE-BC43FE0D4227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF05AAE5-C2A9-4939-96AE-BC43FE0D4227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF05AAE5-C2A9-4939-96AE-BC43FE0D4227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{695A2187-A435-4889-B848-A217010C12D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{695A2187-A435-4889-B848-A217010C12D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{695A2187-A435-4889-B848-A217010C12D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{695A2187-A435-4889-B848-A217010C12D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

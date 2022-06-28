@@ -6,14 +6,30 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
-  --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-color-primary: hsl(215, 85%, 45%);
+  --ifm-color-primary-dark: hsl(215, 85%, 41%);
+  --ifm-color-primary-darker: hsl(215, 85%, 38%);
+  --ifm-color-primary-darkest: hsl(215, 85%, 32%);
+  --ifm-color-primary-light: hsl(215, 85%, 50%);
+  --ifm-color-primary-lighter: hsl(215, 85%, 52%);
+  --ifm-color-primary-lightest: hsl(215, 85%, 59%);
+
   --ifm-code-font-size: 95%;
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: hsl(347, 68%, 35%);
+  --ifm-color-primary-dark: hsl(347, 68%, 32%);
+  --ifm-color-primary-darker: hsl(347, 68%, 30%);
+  --ifm-color-primary-darkest: hsl(347, 68%, 25%);
+  --ifm-color-primary-light: hsl(347, 68%, 39%);
+  --ifm-color-primary-lighter: hsl(347, 68%, 40%);
+  --ifm-color-primary-lightest: hsl(347, 68%, 46%);
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 .docusaurus-highlight-code-line {

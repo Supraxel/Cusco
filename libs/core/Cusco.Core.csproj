@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+
+    <PackageId>Cusco.Core</PackageId>
+
+    <OutputPath>../../dist/libs/core</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.IonDotnet" Version="1.2.2" />
+    <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\low-level\Cusco.LowLevel.csproj" />
+  </ItemGroup>
+
+  <Target Name="CheckNxModuleBoundaries" BeforeTargets="Build">
+    <Exec Command="node ../../node_modules/@nx-dotnet/core/src/tasks/check-module-boundaries.js -p core" />
+  </Target>
+</Project>

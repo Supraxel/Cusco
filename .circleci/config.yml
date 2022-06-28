@@ -81,3 +81,7 @@ workflows:
       - nuget:
           requires:
             - tests
+          filters:
+            branches:
+              only:
+                - main

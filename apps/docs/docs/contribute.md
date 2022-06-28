@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 100
 ---
 
 # Contribute
@@ -20,12 +20,13 @@ You can find the documentation source in `/apps/docs` and start a local docs ser
 nx serve docs
 ```
 
-## Create a new library project
+## Create a new module
 
 - Run `nx g @nx-dotnet/core:lib ProjectName` to generate a new library.
   - The NX project will be named in a kebab case fashion (i.e. `project-name`). Subsequent NX commands will have to refer to project name in this casing.
   - The `*.csproj` file will be named `Cusco.ProjectName.csproj`.
 - Run `dotnet sln Cusco.sln add libs/project-name/Cusco.ProjectName.csproj` to add the new project to the solution file.
+- Make sure to specify a `<PackageId>` attribute in the `*.csproj` file
 
 ## Build
 
