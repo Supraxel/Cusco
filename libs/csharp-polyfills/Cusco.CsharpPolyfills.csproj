@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+
+    <PackageId>Cusco.CSharpPolyfills</PackageId>
+
+    <OutputPath>../../dist/libs/csharp-polyfills</OutputPath>
+  </PropertyGroup>
+
+  <Target Name="CheckNxModuleBoundaries" BeforeTargets="Build">
+    <Exec Command="node ../../node_modules/@nx-dotnet/core/src/tasks/check-module-boundaries.js -p csharp-polyfills" />
+  </Target>
+</Project>
