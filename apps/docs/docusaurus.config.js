@@ -11,7 +11,7 @@ const config = {
   url: 'https://supraxel.github.com',
   baseUrl: '/cusco/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'supraxel',
   projectName: 'cusco',
@@ -42,8 +42,8 @@ const config = {
       navbar: {
         title: 'Cusco',
         logo: {
-          alt: ' ',
-          src: 'img/logo.svg',
+          alt: 'Supraxel',
+          src: 'https://github.com/Supraxel.png',
         },
         items: [
           {
