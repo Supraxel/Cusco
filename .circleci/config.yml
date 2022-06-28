@@ -100,11 +100,11 @@ workflows:
   main:
     jobs:
       - tests
-      - build
-        filters:
-          branches:
-            ignore:
-              - main
+      - build:
+          filters:
+            branches:
+              ignore:
+                - main
       - nuget:
           requires:
             - tests
