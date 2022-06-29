@@ -6,6 +6,7 @@
     <LangVersion>preview</LangVersion>
 
     <PackageId>Cusco.Core</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <OutputPath>../../dist/libs/core</OutputPath>
   </PropertyGroup>

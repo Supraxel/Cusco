@@ -6,6 +6,7 @@
     <LangVersion>preview</LangVersion>
 
     <PackageId>Cusco.LowLevel</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 

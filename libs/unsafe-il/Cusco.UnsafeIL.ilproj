@@ -6,6 +6,7 @@
     <RootNamespace>Cusco.UnsafeIL</RootNamespace>
 
     <PackageId>Cusco.UnsafeIL</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <IncludePath Condition="$(TargetFramework.StartsWith('netstandard2'))">include/netstandard2.1</IncludePath>
     <IlasmFlags>-INCLUDE=$(IncludePath) -DEBUG=$(DebugOptimization)</IlasmFlags>

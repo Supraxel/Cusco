@@ -6,6 +6,7 @@
     <LangVersion>preview</LangVersion>
 
     <PackageId>Cusco.CSharpPolyfills</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <OutputPath>../../dist/libs/csharp-polyfills</OutputPath>
   </PropertyGroup>

@@ -6,6 +6,7 @@
     <LangVersion>preview</LangVersion>
 
     <PackageId>Cusco.Dispatch</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <OutputPath>../../dist/libs/dispatch</OutputPath>
   </PropertyGroup>
