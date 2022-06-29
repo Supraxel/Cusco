@@ -1,10 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 
 namespace Cusco.Dispatch;
 
-[PublicAPI]
 public sealed class DispatchQueue
 {
     public static readonly DispatchQueue main = new DispatchQueue(MainDispatchQueueImpl.instance);
@@ -27,12 +25,12 @@ public sealed class DispatchQueue
 
     [Conditional("DEBUG"), MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AssertOnQueue() => CuscoRT.Assert(impl.inQueue, $"on queue {impl.label}");
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Future<T> AsyncSubmit<T>(Func<Future<T>> workload, CancellationToken cancellationToken = default)
     {
         var promise = MakePromise<T>(cancellationToken);
-        
+
         impl.Dispatch(() =>
         {
             if (workload.TryInvokeSafely(out var value, out var err))
@@ -48,7 +46,7 @@ public sealed class DispatchQueue
     public Future<T> AsyncSubmitDelayed<T>(DateTimeOffset deadline, Func<Future<T>> workload, CancellationToken cancellationToken = default)
     {
         var promise = MakePromise<T>(cancellationToken);
-        
+
         impl.DispatchDelayed(deadline, () =>
         {
             if (workload.TryInvokeSafely(out var value, out var err))
@@ -67,11 +65,11 @@ public sealed class DispatchQueue
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispatch(Action workload)
         => impl.Dispatch(workload);
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void DispatchDelayed(DateTimeOffset deadline, Action block, CancellationToken cancellationToken = default)
         => impl.DispatchDelayed(deadline, block, cancellationToken);
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void DispatchDelayed(TimeSpan delay, Action block, CancellationToken cancellationToken = default)
         => impl.DispatchDelayed(DateTimeOffset.Now + delay, block, cancellationToken);
@@ -79,7 +77,7 @@ public sealed class DispatchQueue
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void DispatchImmediate(Action block)
         => impl.DispatchImmediately(block);
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Future<T> MakeFailedFuture<T>(Exception exc)
     {
@@ -87,7 +85,7 @@ public sealed class DispatchQueue
         p.CompleteWithErr(exc);
         return p;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Future<T> MakeFulfilledFuture<T>(Result<T> value)
     {
@@ -123,7 +121,7 @@ public sealed class DispatchQueue
     public Future<Empty> StartTimeout(DateTimeOffset deadline, CancellationToken cancellationToken = default)
     {
         var promise = MakePromise<Empty>(cancellationToken);
-        
+
         impl.DispatchDelayed(deadline,
             () => promise.CompleteWithErr(new TimeoutException().Enhance()),
             cancellationToken
@@ -135,12 +133,12 @@ public sealed class DispatchQueue
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Future<Empty> StartTimeout(TimeSpan delay, CancellationToken cancellationToken = default)
         => StartTimeout(DateTimeOffset.Now + delay, cancellationToken);
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Future<Empty> StartTimer(DateTimeOffset deadline, CancellationToken cancellationToken = default)
     {
         var promise = MakePromise<Empty>(cancellationToken);
-        
+
         impl.DispatchDelayed(deadline,
             () => promise.Complete(Result<Empty>.Ok(default)),
             cancellationToken
@@ -148,16 +146,16 @@ public sealed class DispatchQueue
 
         return promise;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Future<Empty> StartTimer(TimeSpan delay, CancellationToken cancellationToken = default)
         => StartTimer(DateTimeOffset.Now + delay, cancellationToken);
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Future<T> Submit<T>(Func<T> workload, CancellationToken cancellationToken = default)
     {
         var promise = MakePromise<T>(cancellationToken);
-        
+
         impl.Dispatch(() =>
         {
             if (workload.TryInvokeSafely(out var value, out var err))
@@ -176,12 +174,12 @@ public sealed class DispatchQueue
             workload();
             return default(Empty);
         }, cancellationToken);
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Future<T> SubmitImmediately<T>(Func<T> workload, CancellationToken cancellationToken = default)
     {
         var promise = MakePromise<T>(cancellationToken);
-        
+
         impl.DispatchImmediately(() =>
         {
             if (workload.TryInvokeSafely(out var value, out var err))
@@ -192,7 +190,7 @@ public sealed class DispatchQueue
 
         return promise;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Future<Empty> SubmitImmediately(Action workload, CancellationToken cancellationToken = default)
         => SubmitImmediately(() =>
@@ -205,7 +203,7 @@ public sealed class DispatchQueue
     public Future<T> SubmitDelayed<T>(DateTimeOffset deadline, Func<T> workload, CancellationToken cancellationToken = default)
     {
         var promise = MakePromise<T>(cancellationToken);
-        
+
         impl.DispatchDelayed(deadline, () =>
         {
             if (workload.TryInvokeSafely(out var value, out var err))
