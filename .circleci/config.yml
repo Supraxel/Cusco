@@ -15,12 +15,12 @@ jobs:
       - checkout:
           name: Checkout Git repository
       - restore_cache:
-          key: v1-deps-{{ checksum "package-lock.json" }}
+          key: npm-{{ .Environment.CACHE_VERSION }}-{{ checksum "package-lock.json" }}
       - run:
           name: Install NPM dependencies
           command: npm install
       - save_cache:
-          key: v1-deps-{{ checksum "package-lock.json" }}
+          key: npm-{{ .Environment.CACHE_VERSION }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
@@ -35,12 +35,12 @@ jobs:
       - checkout:
           name: Checkout Git repository
       - restore_cache:
-          key: v1-deps-{{ checksum "package-lock.json" }}
+          key: npm-{{ .Environment.CACHE_VERSION }}-{{ checksum "package-lock.json" }}
       - run:
           name: Install NPM dependencies
           command: npm install
       - save_cache:
-          key: v1-deps-{{ checksum "package-lock.json" }}
+          key: npm-{{ .Environment.CACHE_VERSION }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
@@ -57,12 +57,12 @@ jobs:
       - checkout:
           name: Checkout Git repository
       - restore_cache:
-          key: v1-deps-{{ checksum "package-lock.json" }}
+          key: npm-{{ .Environment.CACHE_VERSION }}-{{ checksum "package-lock.json" }}
       - run:
           name: Install NPM dependencies
           command: npm install
       - save_cache:
-          key: v1-deps-{{ checksum "package-lock.json" }}
+          key: npm-{{ .Environment.CACHE_VERSION }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
@@ -79,22 +79,17 @@ jobs:
     steps:
       - checkout:
           name: Checkout Git repository
-      - restore_cache:
-          key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Install NPM dependencies
           command: npm install
-      - save_cache:
-          key: v1-deps-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
       - run:
-          name: Build release configuration
-          command: |-
-            rm -rf nugets
-            dotnet restore -f
-            dotnet pack -o nugets -c Release -p:VersionPrefix=$(node -p "require('./package.json').version").$CIRCLE_BUILD_NUM;SourceRevisionId=<<pipeline.git.revision>>;RepositoryUrl=<<pipeline.project.git_url>>;RepositoryType=git;RepositoryBranch=<<pipeline.git.branch>>;IncludeSymbols=true;SymbolPackageFormat=snupkg;PackageLicenseFile=./LICENSE
-            for nuget in nugets/*.nupkg ; do dotnet nuget push $nuget -k $NUGET_KEY --source https://api.nuget.org/v3/index.json ; done
+          name: Restore C# dependencies
+          command: dotnet restore -f
+      - run:
+          name: Build & Pack
+          command: rm -rf nugets && dotnet pack -o nugets -c Release -p:VersionPrefix=$(node -p "require('./package.json').version").$CIRCLE_BUILD_NUM;SourceRevisionId=<<pipeline.git.revision>>;RepositoryUrl=<<pipeline.project.git_url>>;RepositoryType=git;RepositoryBranch=<<pipeline.git.branch>>;IncludeSymbols=true;SymbolPackageFormat=snupkg
+      - run:
+          command: for nuget in nugets/*.{sn,n}upkg ; do dotnet nuget push $nuget -k $NUGET_KEY --source https://api.nuget.org/v3/index.json ; done
 
 workflows:
   main:
