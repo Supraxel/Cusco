@@ -6,6 +6,7 @@
     <RootNamespace>Cusco.UnsafeIL</RootNamespace>
 
     <PackageId>Cusco.UnsafeIL</PackageId>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <IncludePath Condition="$(TargetFramework.StartsWith('netstandard2'))">include/netstandard2.1</IncludePath>
@@ -13,5 +14,10 @@
 
     <OutputPath>../../dist/libs/unsafe-il</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="./LICENSE" Pack="true" PackagePath="/" />
+    <None Include="./README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
 
 </Project>

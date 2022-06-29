@@ -8,6 +8,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
     <PackageId>Cusco.Pathfinding</PackageId>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <OutputPath>../../dist/libs/pathfinding</OutputPath>
@@ -16,6 +17,11 @@
   <ItemGroup>
     <ProjectReference Include="..\core\Cusco.Core.csproj" />
     <ProjectReference Include="..\csharp-polyfills\Cusco.CSharpPolyfills.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="./LICENSE" Pack="true" PackagePath="/" />
+    <None Include="./README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <Target Name="CheckNxModuleBoundaries" BeforeTargets="Build">
