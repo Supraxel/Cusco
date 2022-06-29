@@ -6,6 +6,8 @@
     <LangVersion>preview</LangVersion>
 
     <PackageId>Cusco.Dispatch</PackageId>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <OutputPath>../../dist/libs/dispatch</OutputPath>
   </PropertyGroup>
@@ -14,6 +16,11 @@
     <ProjectReference Include="..\core\Cusco.Core.csproj" />
     <ProjectReference Include="..\csharp-polyfills\Cusco.CSharpPolyfills.csproj" />
     <ProjectReference Include="..\low-level\Cusco.LowLevel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="./LICENSE" Pack="true" PackagePath="/" />
+    <None Include="./README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <Target Name="CheckNxModuleBoundaries" BeforeTargets="Build">

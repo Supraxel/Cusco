@@ -6,6 +6,8 @@
     <LangVersion>preview</LangVersion>
 
     <PackageId>Cusco.LowLevel</PackageId>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
@@ -14,6 +16,11 @@
 
   <ItemGroup>
     <ProjectReference Include="../unsafe-il/Cusco.UnsafeIL.ilproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="./LICENSE" Pack="true" PackagePath="/" />
+    <None Include="./README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <Target Name="CheckNxModuleBoundaries" BeforeTargets="Build">
