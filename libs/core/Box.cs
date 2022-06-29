@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace Cusco;
+﻿namespace Cusco;
 
 public sealed class Box<T> where T: struct
 {

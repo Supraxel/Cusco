@@ -1,10 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
-using JetBrains.Annotations;
 
 namespace Cusco.Dispatch;
 
-[PublicAPI]
 public sealed class Future<T>
 {
     private readonly SingleList<Action> callbacks;
@@ -29,20 +26,19 @@ public sealed class Future<T>
     /// </summary>
     /// <param name="token">Token to be used</param>
     /// <returns>A future with the specified <see cref="CancellationToken"/></returns>
-    [Pure]
     public Future<T> CancellableBy(CancellationToken token)
     {
         var promise = dispatchQueue.MakePromise<T>(token);
-        
+
         Cascade(promise);
-        
+
         return promise;
     }
-    
+
     public Future<T> Cascade(Promise<T> promise)
     {
-        if (promise.isInvalid) throw new NullReferenceException(nameof(promise));
-        
+        if (promise.isInvalid) throw new ArgumentNullException(nameof(promise));
+
         AddCallback(() => promise.Complete(result!.asRef));
 
         return this;
@@ -50,8 +46,8 @@ public sealed class Future<T>
 
     public Future<T> CascadeIfOk(Promise<T> promise)
     {
-        if (promise.isInvalid) throw new NullReferenceException(nameof(promise));
-        
+        if (promise.isInvalid) throw new ArgumentNullException(nameof(promise));
+
         AddCallback(() =>
         {
             ref readonly Result<T> resultRef = ref result!.asRef;
@@ -65,8 +61,8 @@ public sealed class Future<T>
 
     public Future<T> CascadeIfErr(Promise<T> promise)
     {
-        if (promise.isInvalid) throw new NullReferenceException(nameof(promise));
-        
+        if (promise.isInvalid) throw new ArgumentNullException(nameof(promise));
+
         AddCallback(() =>
         {
             ref readonly Result<T> resultRef = ref result!.asRef;
@@ -81,7 +77,7 @@ public sealed class Future<T>
     public Future<T> Do(Action<Result<T>> block)
     {
         if (block == null) throw new ArgumentNullException(nameof(block));
-        
+
         AddCallback(() => block.TryInvokeSafely(result!.asRef, out _));
 
         return this;
@@ -105,7 +101,7 @@ public sealed class Future<T>
     public Future<T> DoIfErr(Action<Exception> block)
     {
         if (block == null) throw new ArgumentNullException(nameof(block));
-        
+
         AddCallback(() =>
         {
             ref readonly Result<T> resultRef = ref result!.asRef;
@@ -132,7 +128,6 @@ public sealed class Future<T>
         return this;
     }
 
-    [MustUseReturnValue]
     public Future<T> Hop(DispatchQueue queue)
     {
         var promise = (queue ?? throw new ArgumentNullException(nameof(queue))).MakePromise<T>(cancellationToken);
@@ -141,13 +136,12 @@ public sealed class Future<T>
 
         return promise;
     }
-    
-    [MustUseReturnValue]
+
     public Future<T> Recover(Func<Exception, T> recovery)
     {
         if (null == recovery)
             throw new ArgumentNullException(nameof(recovery));
-        
+
         var next = dispatchQueue.MakePromise<T>(cancellationToken);
 
         AddCallback(() =>
@@ -170,11 +164,10 @@ public sealed class Future<T>
                 }
             }
         });
-        
+
         return next;
     }
 
-    [MustUseReturnValue]
     public Future<T> Recover<TException>(Func<TException, T> recovery) where TException: Exception
     {
         if (null == recovery)
@@ -183,17 +176,16 @@ public sealed class Future<T>
         {
             if (exc is TException castedExc)
                 return recovery(castedExc);
-            
+
             throw exc.Rethrow();
         });
     }
 
-    [MustUseReturnValue]
     public Future<T> RecoverAsync(Func<Exception, Future<T>> recovery)
     {
         if (null == recovery)
             throw new ArgumentNullException(nameof(recovery));
-        
+
         var next = dispatchQueue.MakePromise<T>(cancellationToken);
 
         AddCallback(() =>
@@ -216,11 +208,10 @@ public sealed class Future<T>
                 }
             }
         });
-        
+
         return next;
     }
 
-    [MustUseReturnValue]
     public Future<T> RecoverAsync<TException>(Func<TException, Future<T>> recovery) where TException: Exception
     {
         if (null == recovery)
@@ -229,17 +220,16 @@ public sealed class Future<T>
         {
             if (exc is TException castedExc)
                 return recovery(castedExc);
-            
+
             throw exc.Rethrow();
         });
     }
 
-    [MustUseReturnValue]
     public Future<U> Select<U>(Func<T, U> transform)
     {
         if (null == transform)
             throw new ArgumentNullException(nameof(transform));
-        
+
         var next = dispatchQueue.MakePromise<U>(cancellationToken);
 
         AddCallback(() =>
@@ -263,16 +253,15 @@ public sealed class Future<T>
                 }
             }
         });
-        
+
         return next;
     }
 
-    [MustUseReturnValue]
     public Future<U> SelectAsync<U>(Func<T, Future<U>> transformAsync)
     {
         if (null == transformAsync)
             throw new ArgumentNullException(nameof(transformAsync));
-        
+
         var next = dispatchQueue.MakePromise<U>(cancellationToken);
 
         AddCallback(() =>
@@ -296,10 +285,10 @@ public sealed class Future<T>
                 }
             }
         });
-        
+
         return next;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void AddCallback(Action callback)
         => dispatchQueue.DispatchImmediate(() => AddCallback0(callback));
@@ -337,12 +326,12 @@ public static class FutureEmptyExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Future<Empty> DoIfOk(this Future<Empty> self, Action block)
         => self.DoIfOk(_ => block());
-    
-    [MethodImpl(MethodImplOptions.AggressiveInlining), MustUseReturnValue]
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Future<U> Select<U>(this Future<Empty> self, Func<U> block)
         => self.Select(_ => block());
-    
-    [MethodImpl(MethodImplOptions.AggressiveInlining), MustUseReturnValue]
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Future<U> SelectAsync<U>(this Future<Empty> self, Func<Future<U>> block)
         => self.SelectAsync(_ => block());
 }
