@@ -13,8 +13,8 @@
     "low-level-test": "libs/low-level-test",
     "pathfinding": "libs/pathfinding",
     "pathfinding-test": "libs/pathfinding-test",
-    "reactive": "libs/reactive",
-    "reactive-test": "libs/reactive-test",
+    "reactivex": "libs/reactivex",
+    "reactivex-test": "libs/reactivex-test",
     "unsafe-il": "libs/unsafe-il"
   }
 }

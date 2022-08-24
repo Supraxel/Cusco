@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  
+
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -8,7 +8,7 @@
     <PackageId>Cusco.Pathfinding</PackageId>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    
+
     <OutputPath>../../dist/libs/reactive</OutputPath>
   </PropertyGroup>
 
@@ -16,8 +16,12 @@
     <None Include="./LICENSE" Pack="true" PackagePath="/" />
     <None Include="./README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <ProjectReference Include="..\dispatch\Cusco.Dispatch.csproj" />
+  </ItemGroup>
+
   <Target Name="CheckNxModuleBoundaries" BeforeTargets="Build">
-    <Exec Command="node ../../node_modules/@nx-dotnet/core/src/tasks/check-module-boundaries.js -p reactive" />
+    <Exec Command="node ../../node_modules/@nx-dotnet/core/src/tasks/check-module-boundaries.js -p reactivex" />
   </Target>
 </Project>

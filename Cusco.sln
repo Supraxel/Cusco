@@ -27,9 +27,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.Pathfinding.Test", "l
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.Pathfinding", "libs\pathfinding\Cusco.Pathfinding.csproj", "{B7966EA2-937A-46A7-B96E-4BA25CD40293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.Reactive", "libs\reactive\Cusco.Reactive.csproj", "{84438318-6CE1-4EE3-A713-1617DDC9BE25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.ReactiveX", "libs\reactivex\Cusco.ReactiveX.csproj", "{84438318-6CE1-4EE3-A713-1617DDC9BE25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.Reactive.Test", "libs\reactive-test\Cusco.Reactive.Test.csproj", "{91E22FD3-49E2-4855-8C3F-374E6A14E027}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cusco.ReactiveX.Test", "libs\reactivex-test\Cusco.ReactiveX.Test.csproj", "{91E22FD3-49E2-4855-8C3F-374E6A14E027}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,11 +1,11 @@
 {
   "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/reactive-test",
+  "sourceRoot": "libs/reactivex",
   "targets": {
     "build": {
       "executor": "@nx-dotnet/core:build",
-      "outputs": ["dist/libs/reactive-test"],
+      "outputs": ["dist/libs/reactivex"],
       "options": {
         "configuration": "Debug",
         "noDependencies": true
@@ -15,10 +15,6 @@
           "configuration": "Release"
         }
       }
-    },
-    "test": {
-      "executor": "@nx-dotnet/core:test",
-      "options": {}
     },
     "lint": {
       "executor": "@nx-dotnet/core:format"

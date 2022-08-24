@@ -1,0 +1,124 @@
+// /!\ THIS FILE IS GENERATED, DO NOT MODIFY BY HAND /!\
+
+#pragma warning disable CS2436
+
+using System.Linq.Expressions;
+using System.Reflection;
+using Moq;
+
+namespace Cusco.ReactiveX.Test;
+
+public static class CallSequence
+{
+  public static CallSequence<T> ForMock<T>(Mock<T> mock) where T : class => new(mock);
+}
+
+public class CallSequence<T> where T : class
+{
+  private int invocationsCounter;
+  private readonly Mock<T> mock;
+
+  internal CallSequence(Mock<T> mock)
+  {
+    this.mock = mock;
+  }
+
+  public CallSequence<T> VerifyInvocation(Expression<Func<T, Action>> invocation)
+  {
+    var methodImpl = GetMethodInfo(invocation);
+    var mockInvocation = GetNextInvocation();
+
+    // Ensuring called method matches the expected one
+    Assert.That(mockInvocation.Method, Is.EqualTo(methodImpl));
+
+    // Ensuring the number of arguments is equal
+    Assert.That(mockInvocation.Arguments.Count, Is.EqualTo(0));
+
+    return this;
+  }
+
+  public CallSequence<T> VerifyInvocation<TResult>(Expression<Func<T, Func<TResult>>> invocation, TResult expectedResult)
+  {
+    var methodImpl = GetMethodInfo(invocation);
+    var mockInvocation = GetNextInvocation();
+
+    // Ensuring called method matches the expected one
+    Assert.That(mockInvocation.Method, Is.EqualTo(methodImpl));
+
+    // Ensuring the number of arguments is equal
+    Assert.That(mockInvocation.Arguments.Count, Is.EqualTo(0));
+
+    // Checking the return value
+    Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
+
+    return this;
+  }
+<%
+for (var N = 0; N < argsCount; ++N) {
+  var args = Array.from({length: N+1}, (_, index) => index + 1);
+%>
+  public CallSequence<T> VerifyInvocation<<%- args.map(x => `T${x}`).join(', ') %>>(
+    Expression<Func<T, Action<<%- args.map(x => `T${x}`).join(', ') %>>>> invocation,
+    <%- args.map(x => `T${x} expectedArg${x}`).join(', ') %>
+  )
+  {
+    var methodImpl = GetMethodInfo(invocation);
+    var mockInvocation = GetNextInvocation();
+
+    // Ensuring called method matches the expected one
+    Assert.That(mockInvocation.Method, Is.EqualTo(methodImpl));
+
+    // Ensuring the number of arguments is equal
+    Assert.That(mockInvocation.Arguments.Count, Is.EqualTo(<%- N + 1 %>));
+
+    // Checking arguments one by one
+    <% for (var argIndex of args) { %>Assert.That(mockInvocation.Arguments[<%= argIndex - 1 %>], Is.EqualTo(expectedArg<%= argIndex %>));
+    <% } %>
+
+    return this;
+  }
+
+  public CallSequence<T> VerifyInvocation<<%- args.map(x => `T${x}`).join(', ') %>, TResult>(
+    Expression<Func<T, Func<<%- args.map(x => `T${x}`).join(', ') %>, TResult>>> invocation,
+    <%- args.map(x => `T${x} expectedArg${x}`).join(', ') %>,
+    TResult expectedResult
+  )
+  {
+    var methodImpl = GetMethodInfo(invocation);
+    var mockInvocation = GetNextInvocation();
+
+    // Ensuring called method matches the expected one
+    Assert.That(mockInvocation.Method, Is.EqualTo(methodImpl));
+
+    // Ensuring the number of arguments is equal
+    Assert.That(mockInvocation.Arguments.Count, Is.EqualTo(<%- N + 1 %>));
+
+    // Checking arguments one by one
+    <% for (var argIndex of args) { %>Assert.That(mockInvocation.Arguments[<%= argIndex - 1 %>], Is.EqualTo(expectedArg<%= argIndex %>));
+    <% } %>
+
+    // Checking the return value
+    Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
+
+    return this;
+  }
+<%
+}
+%>
+  public CallSequence<T> VerifyNoOtherInvocation() {
+    Assert.AreEqual(invocationsCounter, mock.Invocations.Count, "Expecting mock to have exactly {0} invocation(s), but it has only {1}.", invocationsCounter, mock.Invocations.Count);
+    return this;
+  }
+
+  private MethodInfo GetMethodInfo(Expression expression)
+  {
+    return ((((expression as LambdaExpression)?.Body as UnaryExpression)?.Operand as MethodCallExpression)?.Object as ConstantExpression)?.Value as MethodInfo ?? throw new ArgumentException("Unsupported expression for VerifyInvocation");
+  }
+
+  private IInvocation GetNextInvocation()
+  {
+    int invocationIndex = invocationsCounter++;
+    Assert.Less(invocationIndex, mock.Invocations.Count, "Expecting mock to have at least {0} invocation(s), but it has only {1}.", invocationIndex+1, mock.Invocations.Count);
+    return mock.Invocations[invocationIndex];
+  }
+}
