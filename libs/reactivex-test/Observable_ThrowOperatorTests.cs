@@ -3,7 +3,7 @@ using Moq;
 
 namespace Cusco.ReactiveX.Test;
 
-public class Observable_ThrowOperatorTests
+public sealed partial class ObservableTests
 {
   [Test]
   public void Observable_Throw_ShouldError()

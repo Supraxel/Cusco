@@ -3,7 +3,7 @@ using Moq;
 
 namespace Cusco.ReactiveX.Test;
 
-public class Observable_FirstOperatorTests
+public sealed partial class ObservableTests
 {
   #region First
 

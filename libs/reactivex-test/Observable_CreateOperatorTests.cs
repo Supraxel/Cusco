@@ -3,8 +3,14 @@ using Moq;
 
 namespace Cusco.ReactiveX.Test;
 
-public class Observable_CreateOperatorTests
+public sealed partial class ObservableTests
 {
+  [Test]
+  public void Observable_Create_ShouldThrowIfHandlerIsNull()
+  {
+    Assert.Throws<ArgumentNullException>(() => Observable.Create<int>(DispatchQueue.main, null));
+  }
+
   #region ShouldPreventDoubleComplete
 
   [Test]

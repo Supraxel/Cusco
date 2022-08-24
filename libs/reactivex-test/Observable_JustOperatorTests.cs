@@ -3,7 +3,7 @@ using Moq;
 
 namespace Cusco.ReactiveX.Test;
 
-public class Observable_JustOperatorTests
+public sealed partial class ObservableTests
 {
   [Test]
   public async Task Observable_Just_ShouldNextThenComplete()

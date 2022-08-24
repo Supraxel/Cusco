@@ -3,8 +3,28 @@ using Moq;
 
 namespace Cusco.ReactiveX.Test;
 
-public class Observable_SubscribeOperatorTests
+public sealed partial class ObservableTests
 {
+  [Test]
+  public void Observable_Subscribe_ShouldThrowIfObserverIsNull()
+  {
+    // act
+    var observable = Observable.Empty<int>(DispatchQueue.main);
+
+    // assert
+    Assert.Throws<ArgumentNullException>(() => observable.Subscribe(null));
+  }
+
+  [Test]
+  public void Observable_Subscribe_ShouldThrowIfAllHandlersAreNull()
+  {
+    // act
+    var observable = Observable.Empty<int>(DispatchQueue.main);
+
+    // assert
+    Assert.Throws<ArgumentNullException>(() => observable.Subscribe(onNext: null, onError: null, onComplete: null));
+  }
+
   [Test]
   public async Task Observable_Subscribe_ShouldInterruptNotificationsAccordingToCancellationToken()
   {
