@@ -106,7 +106,9 @@ for (var N = 0; N < argsCount; ++N) {
 }
 %>
   public CallSequence<T> VerifyNoOtherInvocation() {
-    Assert.AreEqual(invocationsCounter, mock.Invocations.Count, "Expecting mock to have exactly {0} invocation(s), but it has only {1}.", invocationsCounter, mock.Invocations.Count);
+    Assert.That(mock.Invocations.Count, Is.EqualTo(invocationsCounter),
+      "Expecting mock to have exactly {0} invocation(s), but it has only {1}.",
+      invocationsCounter, mock.Invocations.Count);
     return this;
   }
 
