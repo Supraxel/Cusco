@@ -69,7 +69,8 @@ jobs:
           name: Run unit tests
           command: |
             dotnet restore -f
-            nx affected --target=test
+            dotnet build
+            nx affected --target=test --no-build
   # ### see https://circleci.com/docs/2.0/collect-test-data#dot-net
 
   nuget:
