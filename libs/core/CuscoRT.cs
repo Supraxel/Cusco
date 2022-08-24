@@ -65,5 +65,7 @@ namespace Cusco
             if (false == expr)
                 Panic($"Precondition '{message}' failed at '{file}:{line}'");
         }
+
+        public static T Unreachable<T>() => CuscoRT.Panic<T>("Code supposed to be unreachable is being executed");
     }
 }

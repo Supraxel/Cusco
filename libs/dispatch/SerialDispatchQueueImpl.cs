@@ -9,7 +9,7 @@ internal class SerialDispatchQueueImpl : DispatchQueueImpl
     private readonly AutoResetEvent resetEvent;
     private readonly AtomicBool running;
     private readonly DoubleBuffer<ConcurrentQueue<Action>> workloadsDoubleBuffer;
-    
+
     public SerialDispatchQueueImpl(string label) : base(label)
     {
         resetEvent = new(false);
@@ -36,16 +36,18 @@ internal class SerialDispatchQueueImpl : DispatchQueueImpl
     protected override void Notify()
         => resetEvent.Set();
 
-    internal void Run()
+    internal void Run() => Run(default);
+
+    internal void Run(CancellationToken cancellationToken)
     {
-        while (true)
+        while (!cancellationToken.IsCancellationRequested)
         {
-            bool gotSignal = resetEvent.WaitOne(TimeSpan.FromSeconds(0.01));
-            resetEvent.Reset();
-            RunOnce(gotSignal);
+          bool gotSignal = resetEvent.WaitOne(TimeSpan.FromSeconds(0.01));
+          resetEvent.Reset();
+          RunOnce(gotSignal);
         }
     }
-    
+
     protected override void RunEpilogue()
     {
         base.RunEpilogue();
@@ -56,11 +58,11 @@ internal class SerialDispatchQueueImpl : DispatchQueueImpl
     {
         if (running.Exchange(true)) // if is already running
             throw new InvalidOperationException($"DispatchQueue {label} is already running");
-        
+
         try
         {
             RunPrelude();
-            
+
             if (gotSignal)
             {
                 workloadsDoubleBuffer.Swap();
@@ -75,7 +77,7 @@ internal class SerialDispatchQueueImpl : DispatchQueueImpl
             running.Exchange(false);
         }
     }
-    
+
     protected override void RunPrelude()
     {
         base.RunPrelude();

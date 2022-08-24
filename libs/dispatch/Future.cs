@@ -7,19 +7,21 @@ public sealed class Future<T>
     private readonly SingleList<Action> callbacks;
     private readonly CancellationToken cancellationToken;
     private readonly DispatchQueue dispatchQueue;
-    private Box<Result<T>> result;
+
+    private Box<Result<T>> _result;
+    internal Box<Result<T>> result => _result;
 
     internal Future(DispatchQueue dispatchQueue, CancellationToken cancellationToken = default)
     {
         this.callbacks = new SingleList<Action>();
         this.cancellationToken = cancellationToken;
         this.dispatchQueue = dispatchQueue;
-        this.result = Box<Result<T>>.nil;
+        this._result = Box<Result<T>>.nil;
     }
 
-    public bool isDone => result != null;
-    public bool isErr => isDone && result!.asRef.isErr;
-    public bool isOk => isDone && result!.asRef.isOk;
+    public bool isDone => _result != null;
+    public bool isErr => isDone && _result!.asRef.isErr;
+    public bool isOk => isDone && _result!.asRef.isOk;
 
     /// <summary>
     /// Create a new future, replacing its <see cref="CancellationToken"/>.
@@ -39,7 +41,7 @@ public sealed class Future<T>
     {
         if (promise.isInvalid) throw new ArgumentNullException(nameof(promise));
 
-        AddCallback(() => promise.Complete(result!.asRef));
+        AddCallback(() => promise.Complete(_result!.asRef));
 
         return this;
     }
@@ -50,10 +52,10 @@ public sealed class Future<T>
 
         AddCallback(() =>
         {
-            ref readonly Result<T> resultRef = ref result!.asRef;
+            ref readonly Result<T> resultRef = ref _result!.asRef;
 
             if (resultRef.isOk)
-                promise.Complete(result!.asRef);
+                promise.Complete(_result!.asRef);
         });
 
         return this;
@@ -65,10 +67,10 @@ public sealed class Future<T>
 
         AddCallback(() =>
         {
-            ref readonly Result<T> resultRef = ref result!.asRef;
+            ref readonly Result<T> resultRef = ref _result!.asRef;
 
             if (resultRef.isErr) return;
-                promise.Complete(result!.asRef);
+                promise.Complete(_result!.asRef);
         });
 
         return this;
@@ -78,7 +80,7 @@ public sealed class Future<T>
     {
         if (block == null) throw new ArgumentNullException(nameof(block));
 
-        AddCallback(() => block.TryInvokeSafely(result!.asRef, out _));
+        AddCallback(() => block.TryInvokeSafely(_result!.asRef, out _));
 
         return this;
     }
@@ -89,10 +91,10 @@ public sealed class Future<T>
 
         AddCallback(() =>
         {
-            ref readonly Result<T> resultRef = ref result!.asRef;
+            ref readonly Result<T> resultRef = ref _result!.asRef;
 
             if (resultRef.isOk)
-                block.TryInvokeSafely(result!.asRef.Unwrap(), out _);
+                block.TryInvokeSafely(_result!.asRef.Unwrap(), out _);
         });
 
         return this;
@@ -104,10 +106,10 @@ public sealed class Future<T>
 
         AddCallback(() =>
         {
-            ref readonly Result<T> resultRef = ref result!.asRef;
+            ref readonly Result<T> resultRef = ref _result!.asRef;
 
             if (resultRef.isErr)
-                block.TryInvokeSafely(result!.asRef.UnwrapErr(), out _);
+                block.TryInvokeSafely(_result!.asRef.UnwrapErr(), out _);
         });
 
         return this;
@@ -119,13 +121,18 @@ public sealed class Future<T>
 
         AddCallback(() =>
         {
-            ref readonly Result<T> resultRef = ref result!.asRef;
+            ref readonly Result<T> resultRef = ref _result!.asRef;
 
             if (resultRef.isErr && resultRef.UnwrapErr() is TException castedExc)
                 block.TryInvokeSafely(castedExc, out _);
         });
 
         return this;
+    }
+
+    public FutureAwaiter<T> GetAwaiter()
+    {
+      return new FutureAwaiter<T>(this);
     }
 
     public Future<T> Hop(DispatchQueue queue)
@@ -146,7 +153,7 @@ public sealed class Future<T>
 
         AddCallback(() =>
         {
-            ref readonly Result<T> resultRef = ref result!.asRef;
+            ref readonly Result<T> resultRef = ref _result!.asRef;
             switch (resultRef)
             {
                 case { isOk: true }:
@@ -190,7 +197,7 @@ public sealed class Future<T>
 
         AddCallback(() =>
         {
-            ref readonly Result<T> resultRef = ref result!.asRef;
+            ref readonly Result<T> resultRef = ref _result!.asRef;
             switch (resultRef)
             {
                 case { isOk: true }:
@@ -234,7 +241,7 @@ public sealed class Future<T>
 
         AddCallback(() =>
         {
-            ref readonly Result<T> resultRef = ref result!.asRef;
+            ref readonly Result<T> resultRef = ref _result!.asRef;
             switch (resultRef)
             {
                 case { isOk: true }:
@@ -266,7 +273,7 @@ public sealed class Future<T>
 
         AddCallback(() =>
         {
-            ref readonly Result<T> resultRef = ref result!.asRef;
+            ref readonly Result<T> resultRef = ref _result!.asRef;
             switch (resultRef)
             {
                 case { isOk: true }:
@@ -296,7 +303,7 @@ public sealed class Future<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void AddCallback0(Action callback)
     {
-        if (null != result)
+        if (null != _result)
             DispatchQueueImpl.ExecuteWorkloadSafely(callback);
         else
             callbacks.Add(callback);
@@ -314,7 +321,7 @@ public sealed class Future<T>
     internal void SetResult(Result<T> value)
     {
         var boxedResult = new Box<Result<T>>(value);
-        if (null != Interlocked.CompareExchange(ref this.result, boxedResult, default))
+        if (null != Interlocked.CompareExchange(ref this._result, boxedResult, default))
             return;
 
         dispatchQueue.DispatchImmediate(RunCallbacks0);

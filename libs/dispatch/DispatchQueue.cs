@@ -113,8 +113,8 @@ public sealed class DispatchQueue
 
 #if !UNITY
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void RunMain()
-        => ((MainDispatchQueueImpl)main.impl).Run();
+    public static void RunMain(CancellationToken cancellationToken = default)
+        => ((MainDispatchQueueImpl)main.impl).Run(cancellationToken);
 #endif
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

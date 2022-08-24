@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <LangVersion>preview</LangVersion>
 
     <OutputPath>../../dist/libs/pathfinding-test</OutputPath>
   </PropertyGroup>
