@@ -2,7 +2,7 @@ using Cusco.Dispatch;
 
 namespace Cusco.ReactiveX.Test;
 
-[SetUpFixture]
+[SetUpFixture, SingleThreaded]
 public class GlobalSetUp
 {
   private static CancellationTokenSource cts;
