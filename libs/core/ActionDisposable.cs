@@ -4,13 +4,13 @@ namespace Cusco;
 
 public sealed class ActionDisposable : IDisposable
 {
-    private readonly Action disposeBlock;
-    private readonly OnceFlag disposeOnce = new OnceFlag();
-        
-    public ActionDisposable(Action disposeBlock)
-    {
-        this.disposeBlock = disposeBlock ?? throw new ArgumentNullException(nameof(disposeBlock));
-    }
+  private readonly Action disposeBlock;
+  private readonly OnceFlag disposeOnce = new OnceFlag();
 
-    public void Dispose() => disposeOnce.Do(disposeBlock);
+  public ActionDisposable(Action disposeBlock)
+  {
+    this.disposeBlock = disposeBlock ?? throw new ArgumentNullException(nameof(disposeBlock));
+  }
+
+  public void Dispose() => disposeOnce.Do(disposeBlock);
 }

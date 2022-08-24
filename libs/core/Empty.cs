@@ -1,3 +1,5 @@
 ﻿namespace Cusco;
 
-public struct Empty { }
+public struct Empty
+{
+}

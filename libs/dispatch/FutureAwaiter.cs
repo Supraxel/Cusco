@@ -20,11 +20,11 @@ public sealed class FutureAwaiter<T> : INotifyCompletion
 
     switch (future)
     {
-      case {isDone: false}:
+      case { isDone: false }:
         throw new InvalidOperationException("Can't get the result of a future that hasn't yet completed");
-      case {isOk: true}:
+      case { isOk: true }:
         return future.result.asRef.Unwrap();
-      case {isErr: true}:
+      case { isErr: true }:
         throw future.result.asRef.UnwrapErr().Rethrow();
       default:
         return CuscoRT.Unreachable<T>();
