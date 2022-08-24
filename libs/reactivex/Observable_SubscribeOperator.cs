@@ -1,4 +1,6 @@
-﻿namespace Cusco.ReactiveX;
+﻿using Cusco.LowLevel;
+
+namespace Cusco.ReactiveX;
 
 public sealed partial class Observable<T>
 {
@@ -38,6 +40,7 @@ public sealed partial class Observable<T>
   private sealed class Subscription : IDisposable, IObserver<T>
   {
     private CancellationTokenSource cts;
+    private OnceFlag haltOnce = new OnceFlag();
     private readonly IObserver<T> observer;
     private IDisposable subscription;
 
@@ -69,9 +72,7 @@ public sealed partial class Observable<T>
 
     public void Dispose()
     {
-      if (null != subscription)
-        OnCompleted();
-
+      haltOnce.Do(() => observer.OnCompleted());
       cts?.Cancel();
       cts = null;
       subscription?.Dispose();
@@ -82,14 +83,14 @@ public sealed partial class Observable<T>
     {
       if (cts?.IsCancellationRequested ?? true) return;
       cts?.Cancel();
-      observer.OnCompleted();
+      haltOnce.Do(() => observer.OnCompleted());
     }
 
     public void OnError(Exception error)
     {
       if (cts?.IsCancellationRequested ?? true) return;
       cts?.Cancel();
-      observer.OnError(error.Enhance());
+      haltOnce.Do(() => observer.OnError(error.Enhance()));
     }
 
     public void OnNext(T value)

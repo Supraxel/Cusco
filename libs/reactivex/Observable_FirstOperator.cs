@@ -36,8 +36,8 @@ public sealed partial class Observable<T>
     Subscribe(
       onNext: value =>
       {
-        cts.Cancel();
         promise.Complete(Option<T>.Some(value));
+        cts.Cancel();
       },
       onError: error => promise.CompleteWithErr(error),
       onComplete: () => promise.Complete(Option<T>.None()),
@@ -81,8 +81,8 @@ public sealed partial class Observable<T>
     Subscribe(
       onNext: value =>
       {
-        cts.Cancel();
         promise.Complete(value);
+        cts.Cancel();
       },
       onError: error =>
       {
