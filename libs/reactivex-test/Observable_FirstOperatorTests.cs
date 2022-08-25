@@ -153,6 +153,19 @@ public sealed partial class ObservableTests
     Assert.That(value.isSome, Is.False);
   }
 
+  [Test]
+  public void Observable_ThrowFirstAsFuture_ShouldThrowError()
+  {
+    var expectedException = new Exception();
+
+    // act
+    var future = Observable.Throw<int>(DispatchQueue.main, expectedException);
+
+    // assert
+    var thrownException = Assert.ThrowsAsync<Exception>(async () => await future.FirstAsFuture());
+    Assert.That(thrownException, Is.SameAs(expectedException));
+  }
+
   #endregion // FirstAsFuture
 
   #region FirstOrDefaultAsFuture
