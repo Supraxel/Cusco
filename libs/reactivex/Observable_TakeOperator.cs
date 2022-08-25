@@ -15,18 +15,11 @@ public sealed partial class Observable<T>
       return Subscribe(
         onNext: value =>
         {
-          try
+          observer.OnNext(value);
+          if (++counter >= count)
           {
-            observer.OnNext(value);
-            if (++counter >= count)
-            {
-              ((Action)observer.OnCompleted).TryInvokeSafely(out _);
-              cts.Cancel();
-            }
-          }
-          catch (Exception exc)
-          {
-            observer.OnError(exc);
+            ((Action)observer.OnCompleted).TryInvokeSafely(out _);
+            cts.Cancel();
           }
         },
         onError: observer.OnError,

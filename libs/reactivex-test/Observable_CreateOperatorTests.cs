@@ -11,6 +11,29 @@ public sealed partial class ObservableTests
     Assert.Throws<ArgumentNullException>(() => Observable.Create<int>(DispatchQueue.main, null));
   }
 
+  [Test]
+  public void Observable_Create_ShouldErrorIfHandlerThrows()
+  {
+    var expectedError = new Exception();
+
+    // arrange
+    var observerMock = new Mock<IObserver<int>>().SetupAllProperties();
+
+    // act
+    var observable = Observable.Create<int>(DispatchQueue.main, observer =>
+    {
+      throw expectedError;
+    });
+    observable.Subscribe(observerMock.Object);
+
+    Assert.ThrowsAsync<Exception>(async () => await observable.LastOrDefaultAsFuture());
+
+    // assert
+    CallSequence.ForMock(observerMock)
+      .VerifyInvocation(_ => _.OnError, expectedError)
+      .VerifyNoOtherInvocation();
+  }
+
   #region ShouldPreventDoubleComplete
 
   [Test]

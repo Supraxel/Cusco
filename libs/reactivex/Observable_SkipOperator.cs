@@ -14,17 +14,10 @@ public sealed partial class Observable<T>
       return Subscribe(
         onNext: value =>
         {
-          try
-          {
-            if (++counter <= count)
-              return;
+          if (++counter <= count)
+            return;
 
-            observer.OnNext(value);
-          }
-          catch (Exception exc)
-          {
-            observer.OnError(exc);
-          }
+          observer.OnNext(value);
         },
         onError: observer.OnError,
         onComplete: observer.OnCompleted);
