@@ -16,10 +16,10 @@ public sealed partial class Observable<T>
   {
     if (null == onNext && null == onError && null == onComplete)
       throw new ArgumentNullException(nameof(onNext), $"At least one of {nameof(onNext)}, {nameof(onError)} or {nameof(onComplete)} must not be null");
-    return new Subscription(this, new ActionObserver(onNext, onError, onComplete), cancellationToken);
+    return Subscribe(new ActionObserver(onNext, onError, onComplete), cancellationToken);
   }
 
-  private sealed class ActionObserver : IObserver<T>
+  internal sealed class ActionObserver : IObserver<T>
   {
     private readonly Action onComplete;
     private readonly Action<Exception> onError;

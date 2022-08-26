@@ -68,6 +68,8 @@ namespace Cusco
         Panic($"Precondition '{message}' failed at '{file}:{line}'");
     }
 
+    public static void Unreachable() => CuscoRT.Panic("Code supposed to be unreachable is being executed");
+
     public static T Unreachable<T>() => CuscoRT.Panic<T>("Code supposed to be unreachable is being executed");
   }
 }
