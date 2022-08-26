@@ -5,7 +5,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/Supraxel/Cusco?style=flat-square)
 ![CI status](https://img.shields.io/circleci/build/github/Supraxel/Cusco/main?style=flat-square)
 ![Platforms](https://img.shields.io/badge/platforms-.NET%207%20|%20Unity%202022-lightgrey?style=flat-square)
-![License](https://img.shields.io/github/license/Supraxel/Cusco?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
 
 Cusco is a set of game agnostic C# modules. Initially developed for _Project Lima_, Supraxel decided to open-source them
 so they can benefit the community and _Project Lima_ itself.

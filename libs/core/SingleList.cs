@@ -1,40 +1,40 @@
-﻿namespace Cusco;
+namespace Cusco;
 
-public sealed class SingleList<T> where T: class
+public sealed class SingleList<T> where T : class
 {
-    private T firstItem;
-    private List<T> furtherItems;
+  private T firstItem;
+  private List<T> furtherItems;
 
-    public void Add(T item)
-    {
-        if (Interlocked.CompareExchange(ref firstItem, item, null) == null)
-            return;
+  public void Add(T item)
+  {
+    if (Interlocked.CompareExchange(ref firstItem, item, null) == null)
+      return;
 
-        if (Volatile.Read(ref furtherItems) == null)
-            Interlocked.CompareExchange(ref furtherItems, new List<T>(), null);
-        
-        Volatile.Read(ref furtherItems).Add(item);
-    }
+    if (Volatile.Read(ref furtherItems) == null)
+      Interlocked.CompareExchange(ref furtherItems, new List<T>(), null);
 
-    public void Clear()
-    {
-        Interlocked.Exchange(ref firstItem, null);
-        Volatile.Read(ref furtherItems)?.Clear();
-    }
+    Volatile.Read(ref furtherItems).Add(item);
+  }
 
-    public void ForEach(Action<T> block)
-    {
-        var item = Volatile.Read(ref firstItem);
-        if (null == item)
-            return;
+  public void Clear()
+  {
+    Interlocked.Exchange(ref firstItem, null);
+    Volatile.Read(ref furtherItems)?.Clear();
+  }
 
-        block(item);
+  public void ForEach(Action<T> block)
+  {
+    var item = Volatile.Read(ref firstItem);
+    if (null == item)
+      return;
 
-        var otherItems = Volatile.Read(ref furtherItems);
-        if (null == otherItems)
-            return;
+    block(item);
 
-        foreach (var otherItem in otherItems)
-            block(item);
-    }
+    var otherItems = Volatile.Read(ref furtherItems);
+    if (null == otherItems)
+      return;
+
+    foreach (var otherItem in otherItems)
+      block(item);
+  }
 }

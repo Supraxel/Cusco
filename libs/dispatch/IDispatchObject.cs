@@ -1,4 +1,4 @@
-﻿namespace Cusco.Dispatch;
+namespace Cusco.Dispatch;
 
 /// <summary>
 /// Abstract base type for all dispatch objects.

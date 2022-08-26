@@ -1,6 +1,8 @@
-﻿namespace Cusco;
+namespace Cusco;
 
 public sealed class Never
 {
-    private Never() {}
+  private Never()
+  {
+  }
 }

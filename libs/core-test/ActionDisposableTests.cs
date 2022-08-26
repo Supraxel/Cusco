@@ -9,10 +9,7 @@ public class ActionDisposableTests
   {
     var calls = 0;
 
-    var disposable = new ActionDisposable(() =>
-    {
-      calls++;
-    });
+    var disposable = new ActionDisposable(() => { calls++; });
 
     Assert.That(calls, Is.EqualTo(0));
     disposable.Dispose();
