@@ -71,10 +71,8 @@ for (var N = 0; N < argsCount; ++N) {
     // Ensuring the number of arguments is equal
     Assert.That(mockInvocation.Arguments.Count, Is.EqualTo(<%- N + 1 %>));
 
-    // Checking arguments one by one
-    <% for (var argIndex of args) { %>Assert.That(mockInvocation.Arguments[<%= argIndex - 1 %>], Is.EqualTo(expectedArg<%= argIndex %>));
-    <% } %>
-
+    // Checking arguments one by one<% for (var argIndex of args) { %>
+    Assert.That(mockInvocation.Arguments[<%= argIndex - 1 %>], Is.EqualTo(expectedArg<%= argIndex %>));<% } %>
     return this;
   }
 
@@ -93,9 +91,8 @@ for (var N = 0; N < argsCount; ++N) {
     // Ensuring the number of arguments is equal
     Assert.That(mockInvocation.Arguments.Count, Is.EqualTo(<%- N + 1 %>));
 
-    // Checking arguments one by one
-    <% for (var argIndex of args) { %>Assert.That(mockInvocation.Arguments[<%= argIndex - 1 %>], Is.EqualTo(expectedArg<%= argIndex %>));
-    <% } %>
+    // Checking arguments one by one<% for (var argIndex of args) { %>
+    Assert.That(mockInvocation.Arguments[<%= argIndex - 1 %>], Is.EqualTo(expectedArg<%= argIndex %>));<% } %>
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));

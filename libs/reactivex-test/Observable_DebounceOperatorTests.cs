@@ -61,7 +61,7 @@ public sealed partial class ObservableTests
     var observable = Observable.Create<int>(DispatchQueue.main, observer =>
       {
         observer.OnNext(expectedValue);
-        observer.OnNext(expectedValue+1);
+        observer.OnNext(expectedValue + 1);
         return DummyDisposable.instance;
       })
       .Debounce(expectedDelay);
@@ -91,9 +91,9 @@ public sealed partial class ObservableTests
     var observable = Observable.Create<int>(DispatchQueue.main, observer =>
       {
         observer.OnNext(expectedValue);
-        observer.OnNext(expectedValue+1);
-        observer.OnNext(expectedValue+2);
-        observer.OnNext(expectedValue+3);
+        observer.OnNext(expectedValue + 1);
+        observer.OnNext(expectedValue + 2);
+        observer.OnNext(expectedValue + 3);
         Thread.Sleep(expectedDelay * 1.1);
         observer.OnNext(expectedValue2);
         return DummyDisposable.instance;

@@ -1,4 +1,4 @@
-﻿using Cusco.LowLevel;
+using Cusco.LowLevel;
 
 namespace Cusco.ReactiveX;
 

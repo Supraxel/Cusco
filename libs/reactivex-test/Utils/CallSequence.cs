@@ -70,8 +70,6 @@ public class CallSequence<T> where T : class
 
     // Checking arguments one by one
     Assert.That(mockInvocation.Arguments[0], Is.EqualTo(expectedArg1));
-    
-
     return this;
   }
 
@@ -92,7 +90,6 @@ public class CallSequence<T> where T : class
 
     // Checking arguments one by one
     Assert.That(mockInvocation.Arguments[0], Is.EqualTo(expectedArg1));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -117,8 +114,6 @@ public class CallSequence<T> where T : class
     // Checking arguments one by one
     Assert.That(mockInvocation.Arguments[0], Is.EqualTo(expectedArg1));
     Assert.That(mockInvocation.Arguments[1], Is.EqualTo(expectedArg2));
-    
-
     return this;
   }
 
@@ -140,7 +135,6 @@ public class CallSequence<T> where T : class
     // Checking arguments one by one
     Assert.That(mockInvocation.Arguments[0], Is.EqualTo(expectedArg1));
     Assert.That(mockInvocation.Arguments[1], Is.EqualTo(expectedArg2));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -166,8 +160,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[0], Is.EqualTo(expectedArg1));
     Assert.That(mockInvocation.Arguments[1], Is.EqualTo(expectedArg2));
     Assert.That(mockInvocation.Arguments[2], Is.EqualTo(expectedArg3));
-    
-
     return this;
   }
 
@@ -190,7 +182,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[0], Is.EqualTo(expectedArg1));
     Assert.That(mockInvocation.Arguments[1], Is.EqualTo(expectedArg2));
     Assert.That(mockInvocation.Arguments[2], Is.EqualTo(expectedArg3));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -217,8 +208,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[1], Is.EqualTo(expectedArg2));
     Assert.That(mockInvocation.Arguments[2], Is.EqualTo(expectedArg3));
     Assert.That(mockInvocation.Arguments[3], Is.EqualTo(expectedArg4));
-    
-
     return this;
   }
 
@@ -242,7 +231,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[1], Is.EqualTo(expectedArg2));
     Assert.That(mockInvocation.Arguments[2], Is.EqualTo(expectedArg3));
     Assert.That(mockInvocation.Arguments[3], Is.EqualTo(expectedArg4));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -270,8 +258,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[2], Is.EqualTo(expectedArg3));
     Assert.That(mockInvocation.Arguments[3], Is.EqualTo(expectedArg4));
     Assert.That(mockInvocation.Arguments[4], Is.EqualTo(expectedArg5));
-    
-
     return this;
   }
 
@@ -296,7 +282,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[2], Is.EqualTo(expectedArg3));
     Assert.That(mockInvocation.Arguments[3], Is.EqualTo(expectedArg4));
     Assert.That(mockInvocation.Arguments[4], Is.EqualTo(expectedArg5));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -325,8 +310,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[3], Is.EqualTo(expectedArg4));
     Assert.That(mockInvocation.Arguments[4], Is.EqualTo(expectedArg5));
     Assert.That(mockInvocation.Arguments[5], Is.EqualTo(expectedArg6));
-    
-
     return this;
   }
 
@@ -352,7 +335,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[3], Is.EqualTo(expectedArg4));
     Assert.That(mockInvocation.Arguments[4], Is.EqualTo(expectedArg5));
     Assert.That(mockInvocation.Arguments[5], Is.EqualTo(expectedArg6));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -382,8 +364,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[4], Is.EqualTo(expectedArg5));
     Assert.That(mockInvocation.Arguments[5], Is.EqualTo(expectedArg6));
     Assert.That(mockInvocation.Arguments[6], Is.EqualTo(expectedArg7));
-    
-
     return this;
   }
 
@@ -410,7 +390,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[4], Is.EqualTo(expectedArg5));
     Assert.That(mockInvocation.Arguments[5], Is.EqualTo(expectedArg6));
     Assert.That(mockInvocation.Arguments[6], Is.EqualTo(expectedArg7));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -441,8 +420,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[5], Is.EqualTo(expectedArg6));
     Assert.That(mockInvocation.Arguments[6], Is.EqualTo(expectedArg7));
     Assert.That(mockInvocation.Arguments[7], Is.EqualTo(expectedArg8));
-    
-
     return this;
   }
 
@@ -470,7 +447,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[5], Is.EqualTo(expectedArg6));
     Assert.That(mockInvocation.Arguments[6], Is.EqualTo(expectedArg7));
     Assert.That(mockInvocation.Arguments[7], Is.EqualTo(expectedArg8));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -502,8 +478,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[6], Is.EqualTo(expectedArg7));
     Assert.That(mockInvocation.Arguments[7], Is.EqualTo(expectedArg8));
     Assert.That(mockInvocation.Arguments[8], Is.EqualTo(expectedArg9));
-    
-
     return this;
   }
 
@@ -532,7 +506,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[6], Is.EqualTo(expectedArg7));
     Assert.That(mockInvocation.Arguments[7], Is.EqualTo(expectedArg8));
     Assert.That(mockInvocation.Arguments[8], Is.EqualTo(expectedArg9));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -565,8 +538,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[7], Is.EqualTo(expectedArg8));
     Assert.That(mockInvocation.Arguments[8], Is.EqualTo(expectedArg9));
     Assert.That(mockInvocation.Arguments[9], Is.EqualTo(expectedArg10));
-    
-
     return this;
   }
 
@@ -596,7 +567,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[7], Is.EqualTo(expectedArg8));
     Assert.That(mockInvocation.Arguments[8], Is.EqualTo(expectedArg9));
     Assert.That(mockInvocation.Arguments[9], Is.EqualTo(expectedArg10));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -630,8 +600,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[8], Is.EqualTo(expectedArg9));
     Assert.That(mockInvocation.Arguments[9], Is.EqualTo(expectedArg10));
     Assert.That(mockInvocation.Arguments[10], Is.EqualTo(expectedArg11));
-    
-
     return this;
   }
 
@@ -662,7 +630,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[8], Is.EqualTo(expectedArg9));
     Assert.That(mockInvocation.Arguments[9], Is.EqualTo(expectedArg10));
     Assert.That(mockInvocation.Arguments[10], Is.EqualTo(expectedArg11));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -697,8 +664,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[9], Is.EqualTo(expectedArg10));
     Assert.That(mockInvocation.Arguments[10], Is.EqualTo(expectedArg11));
     Assert.That(mockInvocation.Arguments[11], Is.EqualTo(expectedArg12));
-    
-
     return this;
   }
 
@@ -730,7 +695,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[9], Is.EqualTo(expectedArg10));
     Assert.That(mockInvocation.Arguments[10], Is.EqualTo(expectedArg11));
     Assert.That(mockInvocation.Arguments[11], Is.EqualTo(expectedArg12));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -766,8 +730,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[10], Is.EqualTo(expectedArg11));
     Assert.That(mockInvocation.Arguments[11], Is.EqualTo(expectedArg12));
     Assert.That(mockInvocation.Arguments[12], Is.EqualTo(expectedArg13));
-    
-
     return this;
   }
 
@@ -800,7 +762,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[10], Is.EqualTo(expectedArg11));
     Assert.That(mockInvocation.Arguments[11], Is.EqualTo(expectedArg12));
     Assert.That(mockInvocation.Arguments[12], Is.EqualTo(expectedArg13));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -837,8 +798,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[11], Is.EqualTo(expectedArg12));
     Assert.That(mockInvocation.Arguments[12], Is.EqualTo(expectedArg13));
     Assert.That(mockInvocation.Arguments[13], Is.EqualTo(expectedArg14));
-    
-
     return this;
   }
 
@@ -872,7 +831,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[11], Is.EqualTo(expectedArg12));
     Assert.That(mockInvocation.Arguments[12], Is.EqualTo(expectedArg13));
     Assert.That(mockInvocation.Arguments[13], Is.EqualTo(expectedArg14));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -910,8 +868,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[12], Is.EqualTo(expectedArg13));
     Assert.That(mockInvocation.Arguments[13], Is.EqualTo(expectedArg14));
     Assert.That(mockInvocation.Arguments[14], Is.EqualTo(expectedArg15));
-    
-
     return this;
   }
 
@@ -946,7 +902,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[12], Is.EqualTo(expectedArg13));
     Assert.That(mockInvocation.Arguments[13], Is.EqualTo(expectedArg14));
     Assert.That(mockInvocation.Arguments[14], Is.EqualTo(expectedArg15));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));
@@ -985,8 +940,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[13], Is.EqualTo(expectedArg14));
     Assert.That(mockInvocation.Arguments[14], Is.EqualTo(expectedArg15));
     Assert.That(mockInvocation.Arguments[15], Is.EqualTo(expectedArg16));
-    
-
     return this;
   }
 
@@ -1022,7 +975,6 @@ public class CallSequence<T> where T : class
     Assert.That(mockInvocation.Arguments[13], Is.EqualTo(expectedArg14));
     Assert.That(mockInvocation.Arguments[14], Is.EqualTo(expectedArg15));
     Assert.That(mockInvocation.Arguments[15], Is.EqualTo(expectedArg16));
-    
 
     // Checking the return value
     Assert.That(mockInvocation.ReturnValue, Is.EqualTo(expectedResult));

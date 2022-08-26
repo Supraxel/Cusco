@@ -67,7 +67,7 @@ public sealed partial class ObservableTests
 
     var observable = Observable.Create<int>(DispatchQueue.main, observer =>
       {
-        observer.OnNext(expectedValue-1);
+        observer.OnNext(expectedValue - 1);
         observer.OnNext(expectedValue);
         return DummyDisposable.instance;
       })
@@ -100,7 +100,7 @@ public sealed partial class ObservableTests
 
     var observable = Observable.Create<int>(DispatchQueue.main, observer =>
       {
-        observer.OnNext(expectedValue-1);
+        observer.OnNext(expectedValue - 1);
         Thread.Sleep(expectedDelay / 3);
         observer.OnNext(expectedValue);
         return DummyDisposable.instance;

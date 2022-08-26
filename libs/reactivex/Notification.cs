@@ -1,4 +1,4 @@
-﻿namespace Cusco.ReactiveX;
+namespace Cusco.ReactiveX;
 
 public readonly struct Notification<T>
 {
