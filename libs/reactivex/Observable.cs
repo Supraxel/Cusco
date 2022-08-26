@@ -14,11 +14,7 @@ public abstract partial class Observable<T> : IObservable<T>
   public IDisposable Subscribe(IObserver<T> observer) => Subscribe(observer, default);
 
   public IDisposable Subscribe(Action<T> onNext = null, Action<Exception> onError = null, Action onComplete = null, CancellationToken cancellationToken = default)
-  {
-    if (null == onNext && null == onError && null == onComplete)
-      throw new ArgumentNullException(nameof(onNext), $"At least one of {nameof(onNext)}, {nameof(onError)} or {nameof(onComplete)} must not be null");
-    return Subscribe(new ActionObserver<T>(onNext, onError, onComplete), cancellationToken);
-  }
+    => Subscribe(new ActionObserver<T>(onNext, onError, onComplete), cancellationToken);
 
   public abstract IDisposable Subscribe(IObserver<T> observer, CancellationToken cancellationToken);
 }
