@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <LangVersion>preview</LangVersion>
     
-    <OutputPath>../../dist/libs/reactive-test</OutputPath>
+    <OutputPath>../../dist/libs/reactivex-test</OutputPath>
   </PropertyGroup>
   
   <ItemGroup>

@@ -40,10 +40,10 @@ public sealed class BehaviourSubject<T> : Observable<T>, IDisposable, IObserver<
 
       switch (notification)
       {
-        case {isNext: true}:
+        case { isNext: true }:
           _value = notification.next.Unwrap();
           break;
-        case {isErr: true} or {isComplete: true}:
+        case { isErr: true } or { isComplete: true }:
           stopNotification = notification;
           break;
       }

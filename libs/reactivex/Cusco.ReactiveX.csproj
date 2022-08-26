@@ -9,7 +9,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
-    <OutputPath>../../dist/libs/reactive</OutputPath>
+    <OutputPath>../../dist/libs/reactivex</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
