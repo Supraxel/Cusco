@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>preview</LangVersion>
 
-    <PackageId>Cusco.Pathfinding</PackageId>
+    <PackageId>Cusco.ReactiveX</PackageId>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
