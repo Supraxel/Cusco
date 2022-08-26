@@ -1,4 +1,4 @@
-﻿namespace Cusco;
+namespace Cusco;
 
 public sealed class DummyDisposable : IDisposable
 {

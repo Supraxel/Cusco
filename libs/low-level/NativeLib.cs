@@ -16,13 +16,13 @@ public sealed class NativeLib : IDisposable
     switch (Platform.operatingSystem)
     {
       case Platform.OperatingSystem.Windows:
-      {
-        handle = null == path ? GetModuleHandleW(null) : LoadLibraryW(path);
-        if (null != path && handle.isNull)
-          throw new FileLoadException("Unable to load native library", path);
-        getSymbolImpl = GetProcAddress;
-        break;
-      }
+        {
+          handle = null == path ? GetModuleHandleW(null) : LoadLibraryW(path);
+          if (null != path && handle.isNull)
+            throw new FileLoadException("Unable to load native library", path);
+          getSymbolImpl = GetProcAddress;
+          break;
+        }
       default:
         throw new PlatformNotSupportedException();
     }

@@ -982,7 +982,8 @@ public class CallSequence<T> where T : class
     return this;
   }
 
-  public CallSequence<T> VerifyNoOtherInvocation() {
+  public CallSequence<T> VerifyNoOtherInvocation()
+  {
     Assert.That(mock.Invocations.Count, Is.EqualTo(invocationsCounter),
       "Expecting mock to have exactly {0} invocation(s), but it has only {1}.",
       invocationsCounter, mock.Invocations.Count);
@@ -997,7 +998,7 @@ public class CallSequence<T> where T : class
   private IInvocation GetNextInvocation()
   {
     int invocationIndex = invocationsCounter++;
-    Assert.Less(invocationIndex, mock.Invocations.Count, "Expecting mock to have at least {0} invocation(s), but it has only {1}.", invocationIndex+1, mock.Invocations.Count);
+    Assert.Less(invocationIndex, mock.Invocations.Count, "Expecting mock to have at least {0} invocation(s), but it has only {1}.", invocationIndex + 1, mock.Invocations.Count);
     return mock.Invocations[invocationIndex];
   }
 }

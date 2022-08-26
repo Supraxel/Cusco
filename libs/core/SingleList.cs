@@ -1,4 +1,4 @@
-﻿namespace Cusco;
+namespace Cusco;
 
 public sealed class SingleList<T> where T : class
 {

@@ -1,4 +1,4 @@
-﻿namespace Cusco.FixingCSharp;
+namespace Cusco.FixingCSharp;
 
 public static class DictionaryExtensions
 {

@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace Cusco.Dispatch;
 
@@ -157,18 +157,18 @@ public sealed class Future<T>
       switch (resultRef)
       {
         case { isOk: true }:
-        {
-          next.Complete(resultRef.Unwrap());
-          break;
-        }
+          {
+            next.Complete(resultRef.Unwrap());
+            break;
+          }
         case { isErr: true }:
-        {
-          if (false == recovery.TryInvokeSafely(resultRef.UnwrapErr(), out var t, out var exc))
-            next.CompleteWithErr(exc);
-          else
-            next.Complete(t);
-          break;
-        }
+          {
+            if (false == recovery.TryInvokeSafely(resultRef.UnwrapErr(), out var t, out var exc))
+              next.CompleteWithErr(exc);
+            else
+              next.Complete(t);
+            break;
+          }
       }
     });
 
@@ -201,18 +201,18 @@ public sealed class Future<T>
       switch (resultRef)
       {
         case { isOk: true }:
-        {
-          next.Complete(resultRef.Unwrap());
-          break;
-        }
+          {
+            next.Complete(resultRef.Unwrap());
+            break;
+          }
         case { isErr: true }:
-        {
-          if (false == recovery.TryInvokeSafely(resultRef.UnwrapErr(), out var futureT, out var exc))
-            next.CompleteWithErr(exc);
-          else
-            futureT.Cascade(next);
-          break;
-        }
+          {
+            if (false == recovery.TryInvokeSafely(resultRef.UnwrapErr(), out var futureT, out var exc))
+              next.CompleteWithErr(exc);
+            else
+              futureT.Cascade(next);
+            break;
+          }
       }
     });
 
@@ -245,19 +245,19 @@ public sealed class Future<T>
       switch (resultRef)
       {
         case { isOk: true }:
-        {
-          if (false == transform.TryInvokeSafely(resultRef.Unwrap(), out var u, out var exc))
-            next.CompleteWithErr(exc);
-          else
-            next.Complete(u);
+          {
+            if (false == transform.TryInvokeSafely(resultRef.Unwrap(), out var u, out var exc))
+              next.CompleteWithErr(exc);
+            else
+              next.Complete(u);
 
-          break;
-        }
+            break;
+          }
         case { isErr: true }:
-        {
-          next.CompleteWithErr(resultRef.UnwrapErr());
-          break;
-        }
+          {
+            next.CompleteWithErr(resultRef.UnwrapErr());
+            break;
+          }
       }
     });
 
@@ -277,19 +277,19 @@ public sealed class Future<T>
       switch (resultRef)
       {
         case { isOk: true }:
-        {
-          if (false == transformAsync.TryInvokeSafely(resultRef.Unwrap(), out var futureU, out var exc))
-            next.CompleteWithErr(exc);
-          else
-            futureU.Cascade(next);
+          {
+            if (false == transformAsync.TryInvokeSafely(resultRef.Unwrap(), out var futureU, out var exc))
+              next.CompleteWithErr(exc);
+            else
+              futureU.Cascade(next);
 
-          break;
-        }
+            break;
+          }
         case { isErr: true }:
-        {
-          next.CompleteWithErr(resultRef.UnwrapErr());
-          break;
-        }
+          {
+            next.CompleteWithErr(resultRef.UnwrapErr());
+            break;
+          }
       }
     });
 

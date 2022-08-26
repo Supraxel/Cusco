@@ -1,4 +1,4 @@
-﻿namespace Cusco.Dispatch;
+namespace Cusco.Dispatch;
 
 internal static class SR
 {

@@ -1,4 +1,4 @@
-﻿namespace Cusco.Pathfinding;
+namespace Cusco.Pathfinding;
 
 public static class AStarPathfinder<TNode> where TNode : IEquatable<TNode>
 {

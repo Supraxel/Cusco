@@ -1,4 +1,4 @@
-﻿namespace Cusco.Pathfinding;
+namespace Cusco.Pathfinding;
 
 public interface IGraphView<TNode, TGas>
 {

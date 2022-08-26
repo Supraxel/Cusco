@@ -1,4 +1,4 @@
-﻿namespace Cusco.FixingCSharp;
+namespace Cusco.FixingCSharp;
 
 internal sealed class CovaryingReadOnlyDictionaryWrapper<TKey, TValue, TReadOnlyValue> : IReadOnlyDictionary<TKey, TReadOnlyValue> where TValue : TReadOnlyValue
 {
