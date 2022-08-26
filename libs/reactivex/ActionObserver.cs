@@ -6,7 +6,7 @@ public sealed class ActionObserver<T> : IObserver<T>
   private readonly Action<Exception> onError;
   private readonly Action<T> onNext;
 
-  public ActionObserver(Action<T> onNext, Action<Exception> onError, Action onComplete)
+  public ActionObserver(Action<T> onNext = null, Action<Exception> onError = null, Action onComplete = null)
   {
     if (null == onNext && null == onError && null == onComplete)
       throw new ArgumentNullException(nameof(onNext), $"At least one of {nameof(onNext)}, {nameof(onError)} or {nameof(onComplete)} must not be null");
