@@ -2,19 +2,23 @@ using Cusco.Dispatch;
 
 namespace Cusco.ReactiveX;
 
-public sealed partial class Observable<T> : IObservable<T>
+public abstract partial class Observable<T> : IObservable<T>
 {
-  public delegate IDisposable SubscriptionHandler(IObserver<T> observer);
-
   public readonly DispatchQueue dispatchQueue;
-  private readonly SubscriptionHandler subscriptionHandler;
 
-  internal Observable(DispatchQueue dispatchQueue, SubscriptionHandler subscriptionHandler)
+  internal Observable(DispatchQueue dispatchQueue)
   {
-    if (null == subscriptionHandler)
-      throw new ArgumentNullException(nameof(subscriptionHandler));
-
     this.dispatchQueue = dispatchQueue ?? throw new ArgumentNullException(nameof(dispatchQueue));
-    this.subscriptionHandler = subscriptionHandler;
   }
+
+  public IDisposable Subscribe(IObserver<T> observer) => Subscribe(observer, default);
+
+  public IDisposable Subscribe(Action<T> onNext = null, Action<Exception> onError = null, Action onComplete = null, CancellationToken cancellationToken = default)
+  {
+    if (null == onNext && null == onError && null == onComplete)
+      throw new ArgumentNullException(nameof(onNext), $"At least one of {nameof(onNext)}, {nameof(onError)} or {nameof(onComplete)} must not be null");
+    return Subscribe(new ActionObserver<T>(onNext, onError, onComplete), cancellationToken);
+  }
+
+  public abstract IDisposable Subscribe(IObserver<T> observer, CancellationToken cancellationToken);
 }

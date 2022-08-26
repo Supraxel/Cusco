@@ -8,7 +8,7 @@ public delegate void DoOnErrorCallback(Exception error);
 
 public delegate void DoOnNextCallback<in T>(T next);
 
-public sealed partial class Observable<T>
+public abstract partial class Observable<T>
 {
   public Observable<T> Do(DoCallback<T> onNotification)
   {

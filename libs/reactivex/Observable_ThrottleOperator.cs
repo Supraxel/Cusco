@@ -3,7 +3,7 @@ using Timer = System.Timers.Timer;
 
 namespace Cusco.ReactiveX;
 
-public sealed partial class Observable<T>
+public abstract partial class Observable<T>
 {
   public Observable<T> Throttle(TimeSpan delay)
   {

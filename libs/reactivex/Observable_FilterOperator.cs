@@ -1,6 +1,6 @@
 namespace Cusco.ReactiveX;
 
-public sealed partial class Observable<T>
+public abstract partial class Observable<T>
 {
   public Observable<T> Filter(Func<T, bool> predicate)
   {

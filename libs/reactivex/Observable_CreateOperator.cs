@@ -4,5 +4,7 @@ namespace Cusco.ReactiveX;
 
 public static partial class Observable
 {
-  public static Observable<T> Create<T>(DispatchQueue queue, Observable<T>.SubscriptionHandler handler) => new(queue, handler);
+  public delegate IDisposable SubscriptionHandler<out T>(IObserver<T> observer);
+
+  public static Observable<T> Create<T>(DispatchQueue queue, SubscriptionHandler<T> handler) => new ObservableImpl<T>(queue, handler);
 }

@@ -1,6 +1,6 @@
 namespace Cusco.ReactiveX;
 
-public sealed partial class Observable<T>
+public abstract partial class Observable<T>
 {
   public Observable<TTransformed> Map<TTransformed>(Func<T, TTransformed> transformation)
   {

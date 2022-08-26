@@ -8,7 +8,7 @@ public static partial class Observable
   {
     if (drifting)
     {
-      return new(queue, (observer) =>
+      return new ObservableImpl<ulong>(queue, (observer) =>
       {
         ulong count = 0;
         CancellationTokenSource cts = new();
@@ -28,7 +28,7 @@ public static partial class Observable
       });
     }
 
-    return new(queue, (observer) =>
+    return new ObservableImpl<ulong>(queue, (observer) =>
     {
       var timeOffset = DateTimeOffset.UtcNow;
       ulong count = 0;
