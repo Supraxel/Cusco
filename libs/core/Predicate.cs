@@ -5,6 +5,12 @@ namespace Cusco;
 public static class Predicate
 {
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static bool IsNull<T>(T value) where T : class => null == value;
+
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static bool IsNotNull<T>(T value) where T : class => null != value;
+
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
   public static Func<bool> Not(Func<bool> predicate)
   {
     if (null == predicate) throw new ArgumentNullException(nameof(predicate));
