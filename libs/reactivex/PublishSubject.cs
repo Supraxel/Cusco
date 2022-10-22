@@ -3,29 +3,14 @@ using Cusco.LowLevel;
 
 namespace Cusco.ReactiveX;
 
-public sealed class BehaviourSubject<T> : Observable<T>, IDisposable, IObserver<T>
+public sealed class PublishSubject<T> : Observable<T>, IDisposable, IObserver<T>
 {
   private readonly AtomicBool isDisposed = new();
   private readonly HashSet<IObserver<T>> observers = new();
   private Option<Notification<T>> stopNotification = Option<Notification<T>>.None();
-  private T _value;
 
-  public T value
-  {
-    get
-    {
-      if (isDisposed)
-        throw new ObjectDisposedException(nameof(BehaviourSubject<T>));
-
-      if (stopNotification.isSome && stopNotification.Unwrap().isErr)
-        stopNotification.Unwrap().error.Unwrap().Rethrow();
-
-      return _value;
-    }
-  }
-
-  public BehaviourSubject(DispatchQueue dispatchQueue, T value) : base(dispatchQueue)
-    => _value = value;
+  public PublishSubject(DispatchQueue dispatchQueue) : base(dispatchQueue)
+  { }
 
   public void Dispose()
   {
@@ -51,9 +36,6 @@ public sealed class BehaviourSubject<T> : Observable<T>, IDisposable, IObserver<
 
       switch (notification)
       {
-        case { isNext: true }:
-          _value = notification.next.Unwrap();
-          break;
         case { isErr: true } or { isComplete: true }:
           stopNotification = notification;
           break;
@@ -78,7 +60,7 @@ public sealed class BehaviourSubject<T> : Observable<T>, IDisposable, IObserver<
 
     if (isDisposed)
     {
-      observer.OnError(new ObjectDisposedException(nameof(BehaviourSubject<T>)));
+      observer.OnError(new ObjectDisposedException(nameof(PublishSubject<T>)));
       return DummyDisposable.instance;
     }
 
@@ -95,7 +77,6 @@ public sealed class BehaviourSubject<T> : Observable<T>, IDisposable, IObserver<
         return;
 
       observers.Add(observer);
-      observer.OnNext(_value);
     });
 
     return new ActionDisposable(() =>

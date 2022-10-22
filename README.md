@@ -7,13 +7,21 @@
 ![Platforms](https://img.shields.io/badge/platforms-.NET%207%20|%20Unity%202022-lightgrey?style=flat-square)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
 
-Cusco is a set of game agnostic C# modules. Initially developed for _Project Lima_, Supraxel decided to open-source them
-so they can benefit the community and _Project Lima_ itself.
+Cusco is a set of game agnostic C# modules. Initially developed for _Project Lima_, we decided to open-source them
+so they can benefit to both the community and _Project Lima_ itself.
+
 They target either .NET 7 or .NET Standard 2.1 (Unity 2022+ compatible).
 
 ## Getting started
 
-You can find the Cusco modules on [Nuget](https://www.nuget.org/packages?q=Cusco). 
+You can find the Cusco modules on [NuGet](https://www.nuget.org/packages?q=Cusco).
+
+Here's a non-exhaustive list of the various modules available in Cusco
+- Cusco.Dispatch: A multi-threading and event-based I/O framework inspired by [Grand Central Dispatch](https://apple.github.io/swift-corelibs-libdispatch/)
+- Cusco.Pathfinding: A _Bring-your-own-graph_ implementation of pathfinding algorithms
+- Cusco.ReactiveX: A [ReactiveX](https://reactivex.io/) implementation, built for Cusco.Dispatch
+
+Discover all the packages in the [libs](https://github.com/Supraxel/Cusco/tree/main/libs) folder.
 
 ## Project structure
 
