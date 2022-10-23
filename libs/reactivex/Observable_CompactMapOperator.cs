@@ -28,4 +28,29 @@ public abstract partial class Observable<T>
         onComplete: observer.OnCompleted);
     });
   }
+
+  public Observable<TTransformed> CompactMap<TTransformed>(Func<T, TTransformed?> transformation) where TTransformed: struct
+  {
+    if (null == transformation) throw new ArgumentNullException(nameof(transformation));
+
+    return Observable.Create<TTransformed>(dispatchQueue, observer =>
+    {
+      return Subscribe(
+        onNext: value =>
+        {
+          try
+          {
+            var transformed = transformation(value);
+            if (transformed.HasValue)
+              observer.OnNext(transformed.Value);
+          }
+          catch (Exception exc)
+          {
+            observer.OnError(exc);
+          }
+        },
+        onError: observer.OnError,
+        onComplete: observer.OnCompleted);
+    });
+  }
 }
