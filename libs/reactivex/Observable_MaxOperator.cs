@@ -49,7 +49,7 @@ public abstract partial class Observable<T>
   }
 }
 
-public static class ObservableMaxExtensions
+public static partial class ObservableExtensions
 {
   public static Observable<T> Max<T>(this Observable<T> observable) where T: IComparable
   {
