@@ -2,47 +2,47 @@ namespace Cusco.ReactiveX;
 
 public abstract partial class Observable<T>
 {
-  public Observable<T> Min(IComparer<T> comparer)
+  public Observable<T> Max(IComparer<T> comparer)
   {
     if (null == comparer) throw new ArgumentNullException(nameof(comparer));
 
     return Observable.Create<T>(dispatchQueue, observer =>
     {
-      Option<T> minValue = Option<T>.None();
+      Option<T> maxValue = Option<T>.None();
 
       return Subscribe(
         onNext: value =>
         {
-          minValue = minValue.Map(min => comparer.Compare(value, min) < 0 ? value : min).Or(value);
+          maxValue = maxValue.Map(max => comparer.Compare(value, max) > 0 ? value : max).Or(value);
         },
         onError: observer.OnError,
         onComplete: () =>
         {
-          if (minValue.isSome)
-            observer.OnNext(minValue.Unwrap());
+          if (maxValue.isSome)
+            observer.OnNext(maxValue.Unwrap());
           observer.OnCompleted();
         });
     });
   }
 
-  public Observable<T> Min(Comparison<T> comparison)
+  public Observable<T> Max(Comparison<T> comparison)
   {
     if (null == comparison) throw new ArgumentNullException(nameof(comparison));
 
     return Observable.Create<T>(dispatchQueue, observer =>
     {
-      Option<T> minValue = Option<T>.None();
+      Option<T> maxValue = Option<T>.None();
 
       return Subscribe(
         onNext: value =>
         {
-          minValue = minValue.Map(min => comparison(value, min) < 0 ? value : min).Or(value);
+          maxValue = maxValue.Map(max => comparison(value, max) > 0 ? value : max).Or(value);
         },
         onError: observer.OnError,
         onComplete: () =>
         {
-          if (minValue.isSome)
-            observer.OnNext(minValue.Unwrap());
+          if (maxValue.isSome)
+            observer.OnNext(maxValue.Unwrap());
           observer.OnCompleted();
         });
     });
@@ -51,22 +51,22 @@ public abstract partial class Observable<T>
 
 public static partial class ObservableExtensions
 {
-  public static Observable<T> Min<T>(this Observable<T> observable) where T: IComparable
+  public static Observable<T> Max<T>(this Observable<T> observable) where T: IComparable
   {
     return Observable.Create<T>(observable.dispatchQueue, observer =>
     {
-      Option<T> minValue = Option<T>.None();
+      Option<T> maxValue = Option<T>.None();
 
       return observable.Subscribe(
         onNext: value =>
         {
-          minValue = minValue.Map(min => value.CompareTo(min) < 0 ? value : min).Or(value);
+          maxValue = maxValue.Map(max => value.CompareTo(max) > 0 ? value : max).Or(value);
         },
         onError: observer.OnError,
         onComplete: () =>
         {
-          if (minValue.isSome)
-            observer.OnNext(minValue.Unwrap());
+          if (maxValue.isSome)
+            observer.OnNext(maxValue.Unwrap());
           observer.OnCompleted();
         });
     });
