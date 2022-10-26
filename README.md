@@ -2,10 +2,12 @@
 
 # Cusco
 
-![GitHub last commit](https://img.shields.io/github/last-commit/Supraxel/Cusco?style=flat-square)
-![CI status](https://img.shields.io/circleci/build/github/Supraxel/Cusco/main?style=flat-square)
-![Platforms](https://img.shields.io/badge/platforms-.NET%207%20|%20Unity%202022-lightgrey?style=flat-square)
-![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Supraxel/Cusco?style=flat-square)](https://github.com/Supraxel/Cusco/commits/main)
+[![CI status](https://img.shields.io/circleci/build/github/Supraxel/Cusco/main?style=flat-square)](https://app.circleci.com/pipelines/github/Supraxel/Cusco)
+[![Code Quality](https://img.shields.io/codacy/grade/0a06d5cc678c4fdeace9c3eedf1eea6b?style=flat-square)](#)
+[![Platforms](https://img.shields.io/badge/platforms-.NET%207%20|%20Unity%202022-lightgrey?style=flat-square)](#)
+[![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)](https://github.com/Supraxel/Cusco/blob/main/LICENSE)
+[![NuGet](https://img.shields.io/nuget/v/Cusco.Core?style=flat-square)](https://www.nuget.org/profiles/Supraxel)
 
 Cusco is a set of game agnostic C# modules. Initially developed for _Project Lima_, we decided to open-source them
 so they can benefit to both the community and _Project Lima_ itself.
