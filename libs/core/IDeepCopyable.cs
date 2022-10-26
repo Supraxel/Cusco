@@ -2,5 +2,10 @@ namespace Cusco;
 
 public interface IDeepCopyable<out T>
 {
-  public T DeepCopy();
+  T DeepCopy();
+}
+
+public interface IMutableDeepCopyable<T, TMutable> : IDeepCopyable<T>
+{
+  TMutable MutableDeepCopy();
 }
