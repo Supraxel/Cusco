@@ -8,22 +8,16 @@ public abstract partial class Observable<T>
   {
     if (null == observeOnQueue) throw new ArgumentNullException(nameof(observeOnQueue));
 
-    return Observable.Create<T>(observeOnQueue, observer =>
+    return Observable.Create<T>(DispatchQueue.main, observer =>
     {
       return Subscribe(
         onNext: value =>
         {
-          observeOnQueue.DispatchImmediate(() =>
-          {
-            observer.OnNext(value);
-          });
+          observeOnQueue.DispatchImmediate(() => { observer.OnNext(value); });
         },
         onError: error =>
         {
-          observeOnQueue.DispatchImmediate(() =>
-          {
-            observer.OnError(error);
-          });
+          observeOnQueue.DispatchImmediate(() => { observer.OnError(error); });
         },
         onComplete: () =>
         {

@@ -240,4 +240,16 @@ public sealed class DispatchQueue
         return default(Empty);
       },
       cancellationToken);
+
+  public void ThrowNotOnQueue() {
+    if (false == impl.inQueue)
+    {
+      throw new NotOnSameQueueException($"not on queue {impl.label}");
+    }
+  }
+}
+
+public class NotOnSameQueueException : Exception
+{
+  public NotOnSameQueueException(string message) : base(message) { }
 }

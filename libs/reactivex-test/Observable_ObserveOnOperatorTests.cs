@@ -1,4 +1,5 @@
 using Cusco.Dispatch;
+using Cusco.LowLevel;
 using Moq;
 
 namespace Cusco.ReactiveX.Test;
@@ -9,29 +10,24 @@ public sealed partial class ObservableTests
   public async Task Observable_ObserveOn_ShouldNextWithEachTransformedValues()
   {
     // arrange
-    var observerMock = new Mock<IObserver<int>>().SetupAllProperties();
-    var observer = observerMock.Object;
+    var disposeBag = new DisposeBag();
+
+    var backgroundQueue = DispatchQueue.MakeSerial("test");
+
+    var publish = new PublishSubject<int>(DispatchQueue.main);
 
     // act
-    var observable = Observable.Create<int>(DispatchQueue.main, observer =>
-      {
-        observer.OnNext(1);
-        observer.OnNext(2);
-        observer.OnNext(3);
-        observer.OnCompleted();
-        return DummyDisposable.instance;
-      })
-      .ObserveOn(DispatchQueue.main);
-    observable.Subscribe(observer);
+    var observable = publish.ObserveOn(backgroundQueue);
 
-    await observable.LastOrDefaultAsFuture();
+    observable.Subscribe(value =>
+    {
+      Assert.Equals( value, 2);
+      Assert.Equals( Thread.CurrentThread.Name, "test");
+    }).DisposedBy(disposeBag);
 
-    // assert
-    CallSequence.ForMock(observerMock)
-      .VerifyInvocation(observer => observer.OnNext, 1)
-      .VerifyInvocation(observer => observer.OnNext, 2)
-      .VerifyInvocation(observer => observer.OnNext, 3)
-      .VerifyInvocation(observer => observer.OnCompleted)
-      .VerifyNoOtherInvocation();
+    publish.On(Notification<int>.WithNextValue(1));
+
+    await Task.Delay(100);
+    disposeBag.Dispose();
   }
 }
