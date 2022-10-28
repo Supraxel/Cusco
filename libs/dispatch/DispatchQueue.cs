@@ -241,15 +241,10 @@ public sealed class DispatchQueue
       },
       cancellationToken);
 
-  public void ThrowNotOnQueue() {
+  public void ThrowIfNotOnQueue() {
     if (false == impl.inQueue)
     {
-      throw new NotOnSameQueueException($"not on queue {impl.label}");
+      throw new DispatchNotOnQueueException($"not on queue {impl.label}");
     }
   }
-}
-
-public class NotOnSameQueueException : Exception
-{
-  public NotOnSameQueueException(string message) : base(message) { }
 }
