@@ -48,3 +48,5 @@ libs/*/obj
 # Generated Docusaurus files
 .docusaurus/
 .cache-loader/
+
+*.DotSettings.user

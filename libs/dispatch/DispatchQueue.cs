@@ -240,4 +240,11 @@ public sealed class DispatchQueue
         return default(Empty);
       },
       cancellationToken);
+
+  public void ThrowIfNotOnQueue() {
+    if (false == impl.inQueue)
+    {
+      throw new DispatchNotOnQueueException($"not on queue {impl.label}");
+    }
+  }
 }
