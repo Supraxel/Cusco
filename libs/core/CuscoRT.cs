@@ -1,11 +1,12 @@
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Cusco;
 
-#if UNITY
-using Debug = UnityEngine.Debug;
-#endif
 
 namespace Cusco
 {
@@ -20,11 +21,26 @@ namespace Cusco
 
     public static void DebugLog(string message)
     {
-#if UNITY
-            Debug.Log(message);
-#else
-      Console.WriteLine(message);
-#endif
+        if (UnityHelpers.IsUnity())
+        {
+            UnityHelpers.DebugLog(message);
+        }
+        else
+        {
+            Console.WriteLine(message);
+        }
+    }
+
+    private static void DebugLogError(string message)
+    {
+        if (UnityHelpers.IsUnity())
+        {
+            UnityHelpers.DebugLogError(message);
+        }
+        else
+        {
+            Console.WriteLine(message);
+        }
     }
 
     public static void Panic(string message, Exception exception = null)
@@ -36,7 +52,7 @@ namespace Cusco
       finalMessageBuilder.AppendFormat("\n\nSTACKTRACE:\n-----------\n{0}", new StackTrace());
 
       var finalMessage = finalMessageBuilder.ToString();
-      DebugLog(finalMessage);
+      DebugLogError(finalMessage);
 
       try
       {
@@ -45,15 +61,19 @@ namespace Cusco
       }
       catch
       {
+          DebugLogError("Unable to write cusco panic file.");
       }
 
       Debugger.Break();
 
-#if !UNITY_EDITOR
-      Environment.Exit(1);
-#else
-            UnityEditor.EditorApplication.ExitPlaymode();
-#endif
+      if (UnityHelpers.IsUnityEditor())
+      {
+        UnityHelpers.ExitPlaymode();
+      }
+      else
+      {
+        Environment.Exit(1);
+      }
     }
 
     public static T Panic<T>(string message, Exception exception = null)
@@ -71,5 +91,88 @@ namespace Cusco
     public static void Unreachable() => CuscoRT.Panic("Code supposed to be unreachable is being executed");
 
     public static T Unreachable<T>() => CuscoRT.Panic<T>("Code supposed to be unreachable is being executed");
+
+
+    private static class UnityHelpers
+    {
+      private static Option<Assembly> _unityEngineAssembly;
+      public static Assembly unityEngineAssembly
+      {
+        get
+        {
+          if (false == _unityEngineAssembly.isNone)
+            return _unityEngineAssembly.Unwrap();
+
+          _unityEngineAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(assembly => assembly.FullName.Contains("UnityEngine"));
+          return _unityEngineAssembly.Unwrap();
+        }
+      }
+
+      private static Option<Assembly> _unityEditorAssembly;
+      public static Assembly unityEditorAssembly
+      {
+        get
+        {
+          if (false == _unityEditorAssembly.isNone)
+            return _unityEditorAssembly.Unwrap();
+
+          _unityEditorAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(assembly => assembly.FullName.Contains("UnityEditor"));
+          return _unityEditorAssembly.Unwrap();
+        }
+      }
+
+      private static MethodInfo debugLogMethod;
+      public static void DebugLog(string message)
+      {
+          if (false == IsUnity()) return;
+          if (null == debugLogMethod)
+              debugLogMethod = unityEngineAssembly?
+                  .GetType("UnityEngine.Debug")?
+                  .GetMethod(
+                      "Log",
+                      BindingFlags.Static | BindingFlags.Public,
+                      null,
+                      CallingConventions.Any,
+                      new[] { typeof(string) },
+                      Array.Empty<ParameterModifier>()
+                  );
+          debugLogMethod?.Invoke(null, new object[] { message });
+      }
+
+      private static MethodInfo debugLogErrorMethod;
+      public static void DebugLogError(string message)
+      {
+          if (false == IsUnity()) return;
+          if (null == debugLogErrorMethod)
+              debugLogErrorMethod = unityEngineAssembly?
+                  .GetType("UnityEngine.Debug")?
+                  .GetMethod(
+                      "LogError",
+                      BindingFlags.Static | BindingFlags.Public,
+                      null,
+                      CallingConventions.Any,
+                      new[] { typeof(string) },
+                      Array.Empty<ParameterModifier>()
+                  );
+          debugLogErrorMethod?.Invoke(null, new object[] { message });
+      }
+
+      private static MethodInfo exitPlaymodeMethod;
+      public static void ExitPlaymode()
+      {
+        if (false == IsUnityEditor()) return;
+        if (null == exitPlaymodeMethod)
+          exitPlaymodeMethod = unityEditorAssembly?
+            .GetType("UnityEditor.EditorApplication")?
+            .GetMethod("ExitPlaymode", BindingFlags.Static | BindingFlags.Public);
+        exitPlaymodeMethod?.Invoke(null, Array.Empty<object>());
+      }
+
+      public static bool IsUnity()
+        => null != unityEngineAssembly || null != unityEditorAssembly;
+
+      public static bool IsUnityEditor()
+        => null != unityEditorAssembly;
+    }
   }
 }
