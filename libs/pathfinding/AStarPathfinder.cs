@@ -52,15 +52,20 @@ public static class AStarPathfinder<TNode> where TNode : IEquatable<TNode>
 
       foreach (var neighbour in graphView.GetNeighbours(currentNode))
       {
-        TGas newGasCost = UnsafeIL.Add(gasSoFar[currentNode], graphView.GetCost(currentNode, neighbour));
+        var gasSoFarForNode = gasSoFar[currentNode];
+        var costToNeighbour = graphView.GetCost(currentNode, neighbour, gasSoFarForNode);
+        if (false == costToNeighbour.HasValue)
+          continue;
 
-        if (false == gasSoFar.ContainsKey(neighbour) || newGasCost.CompareTo(gasSoFar[neighbour]) < 0)
-        {
-          gasSoFar[neighbour] = newGasCost;
-          TGas priority = UnsafeIL.Add(newGasCost, heuristic(neighbour, endNode));
-          frontier.Enqueue(neighbour, priority);
-          precedents[neighbour] = currentNode;
-        }
+        var newGasCost = UnsafeIL.Add(gasSoFarForNode, costToNeighbour.Value);
+
+        if (gasSoFar.ContainsKey(neighbour) && newGasCost.CompareTo(gasSoFar[neighbour]) >= 0)
+          continue;
+
+        gasSoFar[neighbour] = newGasCost;
+        var priority = UnsafeIL.Add(newGasCost, heuristic(neighbour, endNode));
+        frontier.Enqueue(neighbour, priority);
+        precedents[neighbour] = currentNode;
       }
     }
 

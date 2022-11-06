@@ -12,6 +12,13 @@ namespace Cusco
 {
   public static class CuscoRT
   {
+    public struct FeatureFlags
+    {
+      public bool enhanceExceptions;
+    }
+
+    public static FeatureFlags featureFlags;
+
     [Conditional("DEBUG")]
     public static void Assert(bool expr, string message = null, [CallerFilePath] string file = null, [CallerLineNumber] int line = 0)
     {

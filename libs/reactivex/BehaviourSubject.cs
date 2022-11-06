@@ -59,7 +59,7 @@ public sealed class BehaviourSubject<T> : Observable<T>, IDisposable, IObserver<
           break;
       }
 
-      foreach (var observer in observers)
+      foreach (var observer in observers.ToList())
         observer.On(notification);
 
       if (stopNotification.isSome)
