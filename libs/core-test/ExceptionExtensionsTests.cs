@@ -2,6 +2,12 @@ namespace Cusco.Core.Test;
 
 public class ExceptionExtensionsTests
 {
+  [SetUp]
+  public void SetUp()
+  {
+    CuscoRT.featureFlags.enhanceExceptions = true;
+  }
+
   [Test]
   public void EnhanceExceptionSetStackTraceIfNull()
   {
@@ -12,6 +18,18 @@ public class ExceptionExtensionsTests
     exc.Enhance();
     Assert.That(exc.StackTrace, Is.Not.Null);
     Assert.That(exc.StackTrace, Contains.Substring("EnhanceException"));
+  }
+
+  [Test]
+  public void DoesntEnhanceExceptionWhenFeatureIsDisabled()
+  {
+    CuscoRT.featureFlags.enhanceExceptions = false;
+    var exc = new Exception();
+
+    Assert.That(exc.StackTrace, Is.Null);
+
+    exc.Enhance();
+    Assert.That(exc.StackTrace, Is.Null);
   }
 
   [Test]
