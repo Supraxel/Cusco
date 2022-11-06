@@ -41,7 +41,7 @@ public sealed class PublishSubject<T> : Observable<T>, IDisposable, IObserver<T>
           break;
       }
 
-      foreach (var observer in observers)
+      foreach (var observer in observers.ToList())
         observer.On(notification);
 
       if (stopNotification.isSome)

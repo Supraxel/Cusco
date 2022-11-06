@@ -14,7 +14,11 @@ public static class ExceptionExtensions
 #pragma warning restore S3011
 
   public static Exception Enhance(this Exception self)
-    => null != self.StackTrace ? self : self.SetStackTrace(new StackTrace(StackTrace.METHODS_TO_SKIP + 1));
+  {
+    if (false == CuscoRT.featureFlags.enhanceExceptions)
+      return self;
+    return null != self.StackTrace ? self : self.SetStackTrace(new StackTrace(StackTrace.METHODS_TO_SKIP + 1));
+  }
 
   public static Exception Rethrow(this Exception self)
   {
