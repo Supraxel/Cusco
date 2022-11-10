@@ -2,12 +2,12 @@ namespace Cusco.Pathfinding;
 
 public static class AStarPathfinder<TNode> where TNode : IEquatable<TNode>
 {
-  public static unsafe Result<IEnumerable<TNode>> FindPath<TGas>(
-    IGraphView<TNode, TGas> graphView,
-    delegate* managed<TNode, TNode, TGas> heuristic,
+  public static unsafe Result<IEnumerable<TNode>> FindPath<TIGas, TGas>(
+    IGraphView<TNode, TIGas, TGas> graphView,
+    delegate* managed<TNode, TNode, TIGas> heuristic,
     TNode startNode,
     TNode endNode
-  ) where TGas : struct, IComparable<TGas>
+  ) where TIGas : struct, IGas<TIGas, TGas>
   {
     if (null == graphView)
       throw new ArgumentNullException(nameof(graphView));
@@ -27,9 +27,9 @@ public static class AStarPathfinder<TNode> where TNode : IEquatable<TNode>
     if (false == graphView.Contains(endNode))
       throw new ArgumentException("End node is not in graph", nameof(endNode));
 
-    var frontier = new PriorityQueue<TNode, TGas>();
+    var frontier = new PriorityQueue<TNode, TIGas>();
     Dictionary<TNode, TNode> precedents = new();
-    Dictionary<TNode, TGas> gasSoFar = new();
+    Dictionary<TNode, TIGas> gasSoFar = new();
 
     Result<IEnumerable<TNode>> ConstructPath(TNode finishNode)
     {
@@ -57,13 +57,13 @@ public static class AStarPathfinder<TNode> where TNode : IEquatable<TNode>
         if (false == costToNeighbour.HasValue)
           continue;
 
-        var newGasCost = UnsafeIL.Add(gasSoFarForNode, costToNeighbour.Value);
+        var newGasCost = gasSoFarForNode.Add(costToNeighbour.Value);
 
-        if (gasSoFar.ContainsKey(neighbour) && newGasCost.CompareTo(gasSoFar[neighbour]) >= 0)
+        if (gasSoFar.TryGetValue(neighbour, out var gasToNeighbour) && newGasCost.CompareTo(gasToNeighbour) >= 0)
           continue;
 
         gasSoFar[neighbour] = newGasCost;
-        var priority = UnsafeIL.Add(newGasCost, heuristic(neighbour, endNode));
+        var priority = newGasCost.Add(heuristic(neighbour, endNode));
         frontier.Enqueue(neighbour, priority);
         precedents[neighbour] = currentNode;
       }

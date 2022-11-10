@@ -1,9 +1,9 @@
 namespace Cusco.Pathfinding;
 
-public interface IGraphView<TNode, TGas>
-  where TGas : struct, IComparable<TGas>
+public interface IGraphView<TNode, TIGas, TGas>
+  where TIGas : struct, IGas<TIGas, TGas>
 {
   bool Contains(TNode node);
-  TGas? GetCost(TNode start, TNode end, TGas gasSoFar);
+  TIGas? GetCost(TNode start, TNode end, TIGas gasSoFar);
   IEnumerable<TNode> GetNeighbours(TNode node);
 }

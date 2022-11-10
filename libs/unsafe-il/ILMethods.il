@@ -25,14 +25,4 @@
     conv.u
     ret
   }
-
-  .method public hidebysig static !!T Add<valuetype T>([in] !!T 'lhs', [in] !!T 'rhs') cil managed aggressiveinlining
-  {
-    .param [2]
-    .maxstack 2
-    ldarg.0
-    ldarg.1
-    add
-    ret
-  }
 }
