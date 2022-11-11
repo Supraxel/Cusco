@@ -196,8 +196,6 @@ public sealed partial class ObservableTests
       .VerifyNoOtherInvocation();
   }
 
-
-
   [Test]
   public async Task Observable_CatchAndReturn_ShouldCatchError()
   {
