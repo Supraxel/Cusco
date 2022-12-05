@@ -6,6 +6,7 @@
     "core-test": "libs/core-test",
     "csharp-polyfills": "libs/csharp-polyfills",
     "csharp-polyfills-test": "libs/csharp-polyfills-test",
+    "dependency-injection": "libs/dependency-injection",
     "dispatch": "libs/dispatch",
     "dispatch-test": "libs/dispatch-test",
     "docs": "apps/docs",
