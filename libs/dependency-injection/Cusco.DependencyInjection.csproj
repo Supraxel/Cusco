@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+
+    <PackageId>Cusco.DependencyInjection</PackageId>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <OutputPath>../../dist/libs/dependency-injection</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\core\Cusco.Core.csproj" />
+    <ProjectReference Include="..\csharp-polyfills\Cusco.CSharpPolyfills.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="./LICENSE" Pack="true" PackagePath="/" />
+    <None Include="./README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <Target Name="CheckNxModuleBoundaries" BeforeTargets="Build">
+    <Exec Command="node ../../node_modules/@nx-dotnet/core/src/tasks/check-module-boundaries.js -p dependency-injection" />
+  </Target>
+</Project>
