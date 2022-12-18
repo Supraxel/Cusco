@@ -245,19 +245,19 @@ public sealed class Future<T>
       switch (resultRef)
       {
         case { isOk: true }:
-          {
-            if (false == transform.TryInvokeSafely(resultRef.Unwrap(), out var u, out var exc))
-              next.CompleteWithErr(exc);
-            else
-              next.Complete(u);
+        {
+          if (false == transform.TryInvokeSafely(resultRef.Unwrap(), out var u, out var exc))
+            next.CompleteWithErr(exc);
+          else
+            next.Complete(u);
 
-            break;
-          }
+          break;
+        }
         case { isErr: true }:
-          {
-            next.CompleteWithErr(resultRef.UnwrapErr());
-            break;
-          }
+        {
+          next.CompleteWithErr(resultRef.UnwrapErr());
+          break;
+        }
       }
     });
 
@@ -291,6 +291,44 @@ public sealed class Future<T>
             break;
           }
       }
+    });
+
+    return next;
+  }
+
+  public Future<U> Transform<U>(Func<Result<T>, U> transform)
+  {
+    if (null == transform)
+      throw new ArgumentNullException(nameof(transform));
+
+    var next = dispatchQueue.MakePromise<U>(cancellationToken);
+
+    AddCallback(() =>
+    {
+      ref readonly Result<T> resultRef = ref _result!.asRef;
+      if (transform.TryInvokeSafely(resultRef, out var u, out var exc))
+        next.Complete(u);
+      else
+        next.CompleteWithErr(exc);
+    });
+
+    return next;
+  }
+
+  public Future<U> TransformAsync<U>(Func<Result<T>, Future<U>> transform)
+  {
+    if (null == transform)
+      throw new ArgumentNullException(nameof(transform));
+
+    var next = dispatchQueue.MakePromise<U>(cancellationToken);
+
+    AddCallback(() =>
+    {
+      ref readonly Result<T> resultRef = ref _result!.asRef;
+      if (transform.TryInvokeSafely(resultRef, out var u, out var exc))
+        u.Cascade(next);
+      else
+        next.CompleteWithErr(exc);
     });
 
     return next;
@@ -341,4 +379,12 @@ public static class FutureEmptyExtensions
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
   public static Future<U> SelectAsync<U>(this Future<Empty> self, Func<Future<U>> block)
     => self.SelectAsync(_ => block());
+
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static Future<U> Transform<U>(this Future<Empty> self, Func<U> block)
+    => self.Transform(_ => block());
+
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static Future<U> TransformAsync<U>(this Future<Empty> self, Func<Future<U>> block)
+    => self.TransformAsync(_ => block());
 }
