@@ -1,11 +1,12 @@
 namespace Cusco;
 
-public interface IDeepCopyable<out T>
+public interface IDeepCopyable<T>
 {
-  T DeepCopy();
+  void DeepCopy(out T copy);
 }
 
 public interface IMutableDeepCopyable<T, TMutable> : IDeepCopyable<T>
+  where TMutable : T
 {
-  TMutable MutableDeepCopy();
+  void MutableDeepCopy(out TMutable copy);
 }
