@@ -130,6 +130,10 @@ public sealed class Future<T>
     return this;
   }
 
+  public void Forget()
+  {
+  }
+
   public FutureAwaiter<T> GetAwaiter()
   {
     return new FutureAwaiter<T>(this);
@@ -157,18 +161,18 @@ public sealed class Future<T>
       switch (resultRef)
       {
         case { isOk: true }:
-          {
-            next.Complete(resultRef.Unwrap());
-            break;
-          }
+        {
+          next.Complete(resultRef.Unwrap());
+          break;
+        }
         case { isErr: true }:
-          {
-            if (false == recovery.TryInvokeSafely(resultRef.UnwrapErr(), out var t, out var exc))
-              next.CompleteWithErr(exc);
-            else
-              next.Complete(t);
-            break;
-          }
+        {
+          if (false == recovery.TryInvokeSafely(resultRef.UnwrapErr(), out var t, out var exc))
+            next.CompleteWithErr(exc);
+          else
+            next.Complete(t);
+          break;
+        }
       }
     });
 
@@ -201,18 +205,18 @@ public sealed class Future<T>
       switch (resultRef)
       {
         case { isOk: true }:
-          {
-            next.Complete(resultRef.Unwrap());
-            break;
-          }
+        {
+          next.Complete(resultRef.Unwrap());
+          break;
+        }
         case { isErr: true }:
-          {
-            if (false == recovery.TryInvokeSafely(resultRef.UnwrapErr(), out var futureT, out var exc))
-              next.CompleteWithErr(exc);
-            else
-              futureT.Cascade(next);
-            break;
-          }
+        {
+          if (false == recovery.TryInvokeSafely(resultRef.UnwrapErr(), out var futureT, out var exc))
+            next.CompleteWithErr(exc);
+          else
+            futureT.Cascade(next);
+          break;
+        }
       }
     });
 
@@ -277,19 +281,19 @@ public sealed class Future<T>
       switch (resultRef)
       {
         case { isOk: true }:
-          {
-            if (false == transformAsync.TryInvokeSafely(resultRef.Unwrap(), out var futureU, out var exc))
-              next.CompleteWithErr(exc);
-            else
-              futureU.Cascade(next);
+        {
+          if (false == transformAsync.TryInvokeSafely(resultRef.Unwrap(), out var futureU, out var exc))
+            next.CompleteWithErr(exc);
+          else
+            futureU.Cascade(next);
 
-            break;
-          }
+          break;
+        }
         case { isErr: true }:
-          {
-            next.CompleteWithErr(resultRef.UnwrapErr());
-            break;
-          }
+        {
+          next.CompleteWithErr(resultRef.UnwrapErr());
+          break;
+        }
       }
     });
 
@@ -362,7 +366,7 @@ public sealed class Future<T>
     if (null != Interlocked.CompareExchange(ref this._result, boxedResult, default))
       return;
 
-    dispatchQueue.DispatchImmediate(RunCallbacks0);
+    dispatchQueue.Dispatch(RunCallbacks0);
   }
 }
 

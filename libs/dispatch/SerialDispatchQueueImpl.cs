@@ -5,7 +5,7 @@ namespace Cusco.Dispatch;
 
 internal class SerialDispatchQueueImpl : DispatchQueueImpl
 {
-  protected Thread controlThread;
+  protected Thread? controlThread;
   private readonly AutoResetEvent resetEvent;
   private readonly AtomicBool running;
   private readonly DoubleBuffer<ConcurrentQueue<Action>> workloadsDoubleBuffer;
@@ -40,6 +40,15 @@ internal class SerialDispatchQueueImpl : DispatchQueueImpl
 
   internal void Run(CancellationToken cancellationToken)
   {
+    try
+    {
+      Thread.CurrentThread.Name = label;
+    }
+    catch (InvalidOperationException)
+    {
+      // Ignore exception, if we can't set the name of the thread, it's no big deal.
+    }
+
     while (!cancellationToken.IsCancellationRequested)
     {
       bool gotSignal = resetEvent.WaitOne(TimeSpan.FromSeconds(0.01));

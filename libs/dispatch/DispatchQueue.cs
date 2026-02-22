@@ -241,7 +241,8 @@ public sealed class DispatchQueue
       },
       cancellationToken);
 
-  public void ThrowIfNotOnQueue() {
+  public void ThrowIfNotOnQueue()
+  {
     if (false == impl.inQueue)
     {
       throw new DispatchNotOnQueueException($"not on queue {impl.label}");
