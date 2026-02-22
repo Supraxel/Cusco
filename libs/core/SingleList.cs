@@ -35,6 +35,6 @@ public sealed class SingleList<T> where T : class
       return;
 
     foreach (var otherItem in otherItems)
-      block(item);
+      block(otherItem);
   }
 }
