@@ -5,7 +5,7 @@ internal abstract class DispatchQueueImpl : IDispatchObject
   internal static void ExecuteWorkloadSafely(Action block)
   {
     if (false == block.TryInvokeSafely(out var blockException))
-      CuscoRT.Panic("Uncatched exception in DispatchQueue or Future workload, which is forbidden", blockException);
+      CuscoRT.Panic("Uncaught exception in DispatchQueue or Future workload, which is forbidden", blockException);
   }
 
   private readonly PriorityQueue<DelayedWorkload, DateTimeOffset> delayedWorkloads;
