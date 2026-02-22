@@ -2,71 +2,59 @@ namespace Cusco.Dispatch;
 
 public static class FutureTaskExtensions
 {
-  extension(Future<Empty> future)
+  public static Future<Empty> ToFuture(this Task task, DispatchQueue queue)
   {
-    public Task ToTask()
-    {
-      var tcs = new TaskCompletionSource<object>();
+    var promise = queue.MakePromise<Empty>();
 
-      future.Do(result =>
+    task.ContinueWith(_ => promise.Complete(task.Exception is null ? Result<Empty>.Ok(default) : Result<Empty>.Err(task.Exception)));
+
+    return promise.future;
+  }
+
+  public static Future<T> ToFuture<T>(this Task<T> task, DispatchQueue queue)
+  {
+    var promise = queue.MakePromise<T>();
+
+    task.ContinueWith(_ => promise.Complete(task.Exception is null ? Result<T>.Ok(task.Result) : Result<T>.Err(task.Exception)));
+
+    return promise.future;
+  }
+
+  public static Task ToTask(this Future<Empty> future)
+  {
+    var tcs = new TaskCompletionSource<object>();
+
+    future.Do(result =>
+    {
+      if (result.isOk)
       {
-        if (result.isOk)
-        {
-          tcs.SetResult(null);
-        }
-        else
-        {
-          tcs.SetException(result.UnwrapErr());
-        }
-      });
-
-      return tcs.Task;
-    }
-  }
-
-  extension<T>(Future<T> future)
-  {
-    public Task<T> ToTask()
-    {
-      var tcs = new TaskCompletionSource<T>();
-
-      future.Do(result =>
+        tcs.SetResult(null);
+      }
+      else
       {
-        if (result.isOk)
-        {
-          tcs.SetResult(result.Unwrap());
-        }
-        else
-        {
-          tcs.SetException(result.UnwrapErr());
-        }
-      });
+        tcs.SetException(result.UnwrapErr());
+      }
+    });
 
-      return tcs.Task;
-    }
+    return tcs.Task;
   }
 
-  extension(Task task)
+  public static Task<T> ToTask<T>(this Future<T> future)
   {
-    public Future<Empty> ToFuture(DispatchQueue queue)
+    var tcs = new TaskCompletionSource<T>();
+
+    future.Do(result =>
     {
-      var promise = queue.MakePromise<Empty>();
+      if (result.isOk)
+      {
+        tcs.SetResult(result.Unwrap());
+      }
+      else
+      {
+        tcs.SetException(result.UnwrapErr());
+      }
+    });
 
-      task.ContinueWith(_ => promise.Complete(task.Exception is null ? Result<Empty>.Ok(default) : Result<Empty>.Err(task.Exception)));
-
-      return promise.future;
-    }
-  }
-
-  extension<T>(Task<T> task)
-  {
-    public Future<T> ToFuture(DispatchQueue queue)
-    {
-      var promise = queue.MakePromise<T>();
-
-      task.ContinueWith(_ => promise.Complete(task.Exception is null ? Result<T>.Ok(task.Result) : Result<T>.Err(task.Exception)));
-
-      return promise.future;
-    }
+    return tcs.Task;
   }
 }
